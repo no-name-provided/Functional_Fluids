@@ -1,0 +1,32 @@
+package com.github.no_name_provided.fun_fluids.datagen.providers;
+
+import com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
+import java.util.concurrent.CompletableFuture;
+
+public class FFRecipeProvider extends RecipeProvider {
+
+    public FFRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, registries);
+    }
+
+    @Override
+    protected void buildRecipes(RecipeOutput recipeOutput, HolderLookup.Provider holderLookup) {
+        ShapelessRecipeBuilder.shapeless(
+                RecipeCategory.MISC,
+                new ItemStack(ItemRegistry.COOL_LAVA_BUCKET))
+                .requires(Items.SNOW_BLOCK)
+                .requires(Items.LAVA_BUCKET)
+                .unlockedBy("has_lava_bucket", has(Items.LAVA_BUCKET))
+                .save(recipeOutput);
+
+    }
+}

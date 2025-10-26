@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:snow_block"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fun_fluids:cool_lava_bucket"
+  }
+}

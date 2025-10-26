@@ -1,0 +1,7 @@
+{
+  "block.fun_fluids.cool_lava_block": "Cool Lava Block",
+  "block.fun_fluids.cool_lava_cauldron_block": "Cool Lava Cauldron",
+  "fluid_type.fun_fluids.cool_lava": "Cool Lava",
+  "item.fun_fluids.cool_lava_bucket": "Cool Lava Bucket",
+  "item_group.fun_fluids": "Functional Fluids"
+}
