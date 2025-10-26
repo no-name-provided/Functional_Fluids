@@ -1,6 +1,5 @@
 package com.github.no_name_provided.fun_fluids.datagen.providers;
 
-import com.github.no_name_provided.fun_fluids.common.blocks.CoolLavaCauldronBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
