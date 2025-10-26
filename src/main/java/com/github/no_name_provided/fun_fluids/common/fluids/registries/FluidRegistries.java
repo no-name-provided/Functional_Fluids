@@ -4,7 +4,6 @@ import com.github.no_name_provided.fun_fluids.common.fluids.CoolLavaFluid;
 import com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes.CoolLavaFluidType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;

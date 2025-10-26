@@ -3,19 +3,10 @@ package com.github.no_name_provided.fun_fluids.datagen.providers;
 import com.github.no_name_provided.fun_fluids.common.blocks.CoolLavaCauldronBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluid;
-import net.neoforged.fml.javafmlmod.FMLJavaModLanguageProvider;
 import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.neoforged.neoforge.fluids.CauldronFluidContent;
-import net.neoforged.neoforge.fluids.FluidType;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;

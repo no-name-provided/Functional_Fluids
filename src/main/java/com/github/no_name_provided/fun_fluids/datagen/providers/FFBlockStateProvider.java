@@ -1,11 +1,6 @@
 package com.github.no_name_provided.fun_fluids.datagen.providers;
 
-import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.models.model.ModelTemplates;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
