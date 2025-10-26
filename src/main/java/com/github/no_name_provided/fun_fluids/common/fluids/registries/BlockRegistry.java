@@ -1,13 +1,8 @@
 package com.github.no_name_provided.fun_fluids.common.fluids.registries;
 
 import com.github.no_name_provided.fun_fluids.common.blocks.CoolLavaCauldronBlock;
-import com.github.no_name_provided.fun_fluids.common.fluids.CoolLavaFluid;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.LavaFluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;

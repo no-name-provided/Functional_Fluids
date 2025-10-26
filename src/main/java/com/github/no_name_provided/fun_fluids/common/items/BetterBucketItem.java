@@ -1,7 +1,6 @@
 package com.github.no_name_provided.fun_fluids.common.items;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;

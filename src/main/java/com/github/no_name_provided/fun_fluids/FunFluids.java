@@ -12,7 +12,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.common.CreativeModeTabRegistry;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -48,7 +47,7 @@ public class FunFluids {
             Registries.CREATIVE_MODE_TAB, MODID
     );
 
-    // We need this tab for our buckets. This is the most idiomatic way to make them show up in recipe viewers.
+    // We use this tab for our buckets. This is the most idiomatic way to make them show up in recipe viewers.
     @SuppressWarnings("unused")
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FLUID_TAB = CREATIVE_MODE_TABS.register(
             MODID, () -> CreativeModeTab.builder().title(Component.translatable("item_group." + MODID))

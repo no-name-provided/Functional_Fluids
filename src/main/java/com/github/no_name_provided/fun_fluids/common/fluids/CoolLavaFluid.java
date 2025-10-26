@@ -142,26 +142,6 @@ public abstract class CoolLavaFluid extends FlowingFluid {
         }
     }
 
-//    @Override
-//    public void tick(Level level, BlockPos pos, FluidState state) {
-//        if (!state.isSource()) {
-//            FluidState fluidstate = this.getNewLiquid(level, pos, level.getBlockState(pos));
-//            int i = this.getSpreadDelay(level, pos, state, fluidstate);
-//            if (fluidstate.isEmpty()) {
-//                state = fluidstate;
-//                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-//            } else if (!fluidstate.equals(state)) {
-//                state = fluidstate;
-//                BlockState blockstate = fluidstate.createLegacyBlock();
-//                level.setBlock(pos, blockstate, 2);
-//                level.scheduleTick(pos, fluidstate.getType(), i);
-//                level.updateNeighborsAt(pos, blockstate.getBlock());
-//            }
-//        }
-//
-//        this.spread(level, pos, state);
-//    }
-
     @Override
     public int getSpreadDelay(Level level, BlockPos pos, FluidState currentState, FluidState newState) {
         int i = this.getTickDelay(level);
@@ -177,6 +157,12 @@ public abstract class CoolLavaFluid extends FlowingFluid {
         return i;
     }
 
+    /**
+     * We have to handle any fluid interaction event with fluids below our block here. The idiomatic way to handle
+     * every other interaction event is with a - you guessed it - registry. Specifically,
+     * a wierd one at FluidInteractionRegistry.java.
+     * @see com.github.no_name_provided.fun_fluids.common.fluids.Events#onServerAboutToStart
+     * */
     @Override
     protected void spreadTo(LevelAccessor level, BlockPos pos, BlockState blockState, Direction direction, FluidState fluidState) {
         if (direction == Direction.DOWN) {

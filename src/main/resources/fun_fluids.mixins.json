@@ -4,6 +4,7 @@
   "package": "com.github.no_name_provided.fun_fluids.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "NoNameProvided_WaterFluid"
   ],
   "client": [
   ],
