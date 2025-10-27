@@ -4,7 +4,6 @@ import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegi
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -75,8 +74,8 @@ public class CoolLavaFluidType extends FluidType {
      */
     @Override
     public boolean move(FluidState state, LivingEntity entity, Vec3 travelVector, double gravity) {
-        // The following code is cribbed, with minimal changes, from vanilla/NeoForge.
-        double d8 = entity.getY();
+        // The following code is copied, with minimal changes, from LivingEntity#travel.
+        double entityHeight = entity.getY();
         boolean flag = entity.getDeltaMovement().y <= 0.0;
 
         entity.moveRelative(0.02F, travelVector);
@@ -94,7 +93,7 @@ public class CoolLavaFluidType extends FluidType {
         }
 
         Vec3 vec34 = entity.getDeltaMovement();
-        if (entity.horizontalCollision && entity.isFree(vec34.x, vec34.y + 0.6F - entity.getY() + d8, vec34.z)) {
+        if (entity.horizontalCollision && entity.isFree(vec34.x, vec34.y + 0.6F - entity.getY() + entityHeight, vec34.z)) {
             entity.setDeltaMovement(vec34.x, 0.3F, vec34.z);
         }
         return true;
