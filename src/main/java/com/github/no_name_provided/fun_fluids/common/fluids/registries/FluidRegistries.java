@@ -1,7 +1,9 @@
 package com.github.no_name_provided.fun_fluids.common.fluids.registries;
 
 import com.github.no_name_provided.fun_fluids.common.fluids.CoolLavaFluid;
+import com.github.no_name_provided.fun_fluids.common.fluids.ThickAirFluid;
 import com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes.CoolLavaFluidType;
+import com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes.ThickAirFluidType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -25,6 +27,12 @@ public class FluidRegistries {
                 "cool_lava",
                 CoolLavaFluid.Source::new
         );
+
+        // Since this fluid has no flowing variant, we only need to register a source block.
+        public static final DeferredHolder<Fluid, ThickAirFluid> THICK_AIR_FLUID = FLUIDS.register(
+                "thick_air",
+                ThickAirFluid::new
+        );
     }
 
     public static class FunFluidTypes {
@@ -33,6 +41,10 @@ public class FluidRegistries {
         public static final DeferredHolder<FluidType, CoolLavaFluidType> COOL_LAVA = FLUID_TYPES.register(
                 "cool_lava",
                 CoolLavaFluidType::new
+        );
+        public static final DeferredHolder<FluidType, ThickAirFluidType> THICK_AIR = FLUID_TYPES.register(
+                "thick_air",
+                ThickAirFluidType::new
         );
     }
 

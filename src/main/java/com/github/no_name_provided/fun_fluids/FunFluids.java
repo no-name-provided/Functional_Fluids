@@ -1,5 +1,7 @@
 package com.github.no_name_provided.fun_fluids;
 
+import com.github.no_name_provided.fun_fluids.client.ClientConfig;
+import com.github.no_name_provided.fun_fluids.common.CommonConfig;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry;
@@ -68,7 +70,8 @@ public class FunFluids {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register config file(s). It's recommended to use common, as the other types don't synchronize in multiplayer.
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
 }

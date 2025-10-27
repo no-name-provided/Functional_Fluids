@@ -16,6 +16,10 @@ public class ItemRegistry {
             "cool_lava_bucket",
             () -> new BetterBucketItem(FluidRegistries.FunFluids.COOL_LAVA.get(), new Item.Properties())
     );
+    public static final DeferredHolder<Item, BucketItem> THICK_AIR_BUCKET = ITEMS.register(
+            "dense_air_bucket",
+            () -> new BetterBucketItem(FluidRegistries.FunFluids.THICK_AIR_FLUID.get(), new Item.Properties())
+    );
 
     public static void register(IEventBus bus) {
         ITEMS.register(bus);

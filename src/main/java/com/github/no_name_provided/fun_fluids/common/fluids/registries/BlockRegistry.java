@@ -31,6 +31,22 @@ public class BlockRegistry {
                             .sound(SoundType.EMPTY)
             )
     );
+    public static final DeferredHolder<Block, LiquidBlock> THICK_AIR_BLOCK = FLUID_BLOCKS.register(
+            "thick_air_block",
+            () -> new LiquidBlock(
+                    FluidRegistries.FunFluids.THICK_AIR_FLUID.get(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.NONE)
+                            .replaceable()
+                            .noCollission()
+                            .strength(100.0f)
+                            .lightLevel(state -> 15)
+                            .pushReaction(PushReaction.DESTROY)
+                            .noLootTable()
+                            .liquid()
+                            .sound(SoundType.EMPTY)
+            )
+    );
 
     public static final DeferredRegister.Blocks SOLID_BLOCKS = DeferredRegister.createBlocks(MODID);
 
@@ -42,7 +58,7 @@ public class BlockRegistry {
     );
 
     public static void register(IEventBus bus) {
-        FLUID_BLOCKS.register(bus);
         SOLID_BLOCKS.register(bus);
+        FLUID_BLOCKS.register(bus);
     }
 }

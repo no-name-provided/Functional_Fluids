@@ -46,6 +46,9 @@ public class BetterBucketItem extends BucketItem {
         );
     }
 
+    /**
+     * Special case cauldron interactions and use their fluid capability.
+     * */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
