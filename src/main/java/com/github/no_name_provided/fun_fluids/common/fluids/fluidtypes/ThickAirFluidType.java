@@ -23,7 +23,7 @@ public class ThickAirFluidType extends FluidType {
     public ThickAirFluidType() {
         super(Properties.create()
                 .temperature(20)
-                .pathType(PathType.WATER)
+                .pathType(PathType.BLOCKED)
                 .canConvertToSource(false)
                 // Don't scale fall damage
                 .fallDistanceModifier(1)
