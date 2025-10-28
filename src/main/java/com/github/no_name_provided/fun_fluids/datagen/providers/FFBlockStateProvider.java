@@ -15,12 +15,9 @@ public class FFBlockStateProvider extends BlockStateProvider {
     }
 
     @Override protected void registerStatesAndModels() {
-//        simpleBlock(COOL_LAVA_CAULDRON.get(), );
-
         simpleBlock(
                 COOL_LAVA_CAULDRON.get(),
                 models().getExistingFile(mcLoc("lava_cauldron"))
-//                models().generatedModels.get(mcLoc("lava_cauldron"))
         );
 
         //Not necessary. Eliminates some undefined/missing blockstate warnings.
@@ -32,6 +29,5 @@ public class FFBlockStateProvider extends BlockStateProvider {
                 THICK_AIR_BLOCK.get(),
                 models().cubeAll("thick_air", modLoc("block/transparent"))
         );
-
     }
 }

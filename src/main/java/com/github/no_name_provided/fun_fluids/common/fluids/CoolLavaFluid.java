@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.*;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
@@ -193,6 +192,7 @@ public abstract class CoolLavaFluid extends FlowingFluid {
 
     @Override
     protected boolean canBeReplacedWith(FluidState state, BlockGetter level, BlockPos pos, Fluid fluid, Direction direction) {
+        //noinspection deprecation - used in vanilla/NeoForge
         return state.getHeight(level, pos) >= 0.44444445F && fluid.is(FluidTags.WATER);
     }
 

@@ -37,6 +37,5 @@ public class FFRecipeProvider extends RecipeProvider {
                 .requires(Items.WATER_BUCKET)
                 .unlockedBy("has_dragon_breath", has(Items.DRAGON_BREATH))
                 .save(recipeOutput);
-
     }
 }
