@@ -13,6 +13,8 @@ public class FFItemModelProvider extends ItemModelProvider {
     @Override protected void registerModels() {
 //        mimicItem(ItemRegistry.COOL_LAVA_BUCKET.get(), Items.LAVA_BUCKET);
         withExistingParent(ItemRegistry.COOL_LAVA_BUCKET.getRegisteredName(), mcLoc("item/lava_bucket"));
+
+        withExistingParent(ItemRegistry.THICK_AIR_BUCKET.getRegisteredName(), mcLoc("item/bucket"));
     }
 
 //    ItemModelBuilder mimicItem(Item itemToModel, Item itemToMimic) {

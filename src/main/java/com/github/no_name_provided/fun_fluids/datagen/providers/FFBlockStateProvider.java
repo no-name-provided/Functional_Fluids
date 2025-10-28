@@ -4,8 +4,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.COOL_LAVA_BLOCK;
-import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.COOL_LAVA_CAULDRON;
+import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.*;
 
 /**
  * Note: import the NeoForge BlockStateProvider.
@@ -28,6 +27,10 @@ public class FFBlockStateProvider extends BlockStateProvider {
         simpleBlock(
                 COOL_LAVA_BLOCK.get(),
                 models().getExistingFile(mcLoc("lava"))
+        );
+        simpleBlock(
+                THICK_AIR_BLOCK.get(),
+                models().cubeAll("thick_air", modLoc("block/transparent"))
         );
 
     }

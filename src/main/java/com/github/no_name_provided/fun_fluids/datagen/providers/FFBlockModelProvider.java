@@ -12,8 +12,8 @@ public class FFBlockModelProvider extends BlockModelProvider {
     @Override
     protected void registerModels() {
         withExistingParent("cool_lava_cauldron", mcLoc("block/lava_cauldron"));
-
-
         withExistingParent("cool_lava_block", mcLoc("block/lava"));
+
+        cubeAll("thick_air_block", modLoc("block/transparent"));
     }
 }

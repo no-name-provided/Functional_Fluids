@@ -28,6 +28,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * Fluid examples include:
  * <p> <ul>
  *     <li>Cool Lava - Full recreation of vanilla lava EXCEPT for fire/ignition</li>
+ *     <li>Thick Air - Fully transparent, non-flowing fluid. Balanced alternative to creative flight. Good for airlocks and underwater bubbles</li>
  * </ul>
  *
  * </p> <p>

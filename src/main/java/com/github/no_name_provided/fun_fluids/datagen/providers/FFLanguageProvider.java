@@ -9,9 +9,9 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 import java.util.function.Supplier;
 
 import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
-import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.COOL_LAVA_BLOCK;
-import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.COOL_LAVA_CAULDRON;
+import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.*;
 import static com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry.COOL_LAVA_BUCKET;
+import static com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry.THICK_AIR_BUCKET;
 
 public class FFLanguageProvider extends LanguageProvider {
     public FFLanguageProvider(PackOutput output, String modid, String locale) {
@@ -23,9 +23,12 @@ public class FFLanguageProvider extends LanguageProvider {
         add("item_group." + MODID, "Functional Fluids");
 
         addFluidSet("Cool Lava", COOL_LAVA_BLOCK, COOL_LAVA_BUCKET, COOL_LAVA_CAULDRON);
+        addFluidSet("Thick Air", THICK_AIR_BLOCK, THICK_AIR_BUCKET);
     }
 
-    // Utility method for common fluid things.
+    /**
+     * Utility method for common fluid things.
+     * */
     private void addFluidSet(String name, Supplier<? extends LiquidBlock> block, Supplier<? extends BucketItem> bucket, Supplier<? extends AbstractCauldronBlock> cauldron) {
         if (null != block) {
             addBlock(block, name + " Block");
@@ -37,6 +40,14 @@ public class FFLanguageProvider extends LanguageProvider {
         if (null != cauldron) {
             addBlock(COOL_LAVA_CAULDRON, name + " Cauldron");
         }
+    }
+
+    private void addFluidSet(String name, Supplier<? extends LiquidBlock> block, Supplier<? extends BucketItem> bucket) {
+        addFluidSet(name, block, bucket, null);
+    }
+
+    private void addFluidSet(String name, Supplier<? extends BucketItem> bucket) {
+        addFluidSet(name, null, bucket);
     }
 
 }

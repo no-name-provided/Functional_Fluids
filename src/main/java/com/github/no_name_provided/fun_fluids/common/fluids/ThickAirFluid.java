@@ -26,9 +26,12 @@ import net.neoforged.neoforge.fluids.FluidType;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * We use a flowing fluid here because, in Minecraft, all LiquidBlocks are backed by a flowing fluid.
+ * Example implementation of a fluid that doesn't flow. You'll probably want to use a custom transparent, intangible
+ * block for this. That's <i>very</i> easy. However, if you want to code it as a proper fluid, this is one way to do it.
+ *
+ * <p>We use a flowing fluid here because, in Minecraft, all LiquidBlocks are backed by a flowing fluid.
  * While we could make our own liquid block variant, it's probably more idiomatic to make a flowing fluid
- * and overwrite the methods that result in "flowing" behavior.
+ * and overwrite the methods that result in "flowing" behavior.</p>
  * */
 @ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
 public class ThickAirFluid extends FlowingFluid {

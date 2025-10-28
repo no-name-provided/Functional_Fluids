@@ -1,7 +1,10 @@
 {
   "block.fun_fluids.cool_lava_block": "Cool Lava Block",
   "block.fun_fluids.cool_lava_cauldron_block": "Cool Lava Cauldron",
+  "block.fun_fluids.thick_air_block": "Thick Air Block",
   "fluid_type.fun_fluids.cool_lava": "Cool Lava",
+  "fluid_type.fun_fluids.thick_air": "Thick Air",
   "item.fun_fluids.cool_lava_bucket": "Cool Lava Bucket",
+  "item.fun_fluids.dense_air_bucket": "Thick Air Bucket",
   "item_group.fun_fluids": "Functional Fluids"
 }
