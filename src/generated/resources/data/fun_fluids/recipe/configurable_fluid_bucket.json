@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:ice"
+    },
+    {
+      "item": "minecraft:bucket"
+    },
+    {
+      "item": "minecraft:campfire"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fun_fluids:configurable_fluid_bucket"
+  }
+}

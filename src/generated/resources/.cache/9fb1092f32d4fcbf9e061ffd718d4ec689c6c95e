@@ -1,5 +1,7 @@
-// 1.21.1	2025-10-27T17:12:02.0331165	Recipes
+// 1.21.1	2025-10-28T11:38:32.0063107	Recipes
+1f9b016efdf8dbc8bdebd6dcf489dfcfd95b61dc data/fun_fluids/advancement/recipes/misc/configurable_fluid_bucket.json
 4261e2d188d3f358fb0ef22a78c5fdeb5c0ffe7f data/fun_fluids/advancement/recipes/misc/cool_lava_bucket.json
 9180a327abf273bd7653f5756f0590c8d44f80d3 data/fun_fluids/advancement/recipes/misc/dense_air_bucket.json
+0e8d975c7917e4f4a58e72bc1bd05373b8d1ba70 data/fun_fluids/recipe/configurable_fluid_bucket.json
 986c356900344b6d150819cdcceb0314dfbc0b5d data/fun_fluids/recipe/cool_lava_bucket.json
 c268349246260a8d12e0b3781ccb8295676f5ded data/fun_fluids/recipe/dense_air_bucket.json

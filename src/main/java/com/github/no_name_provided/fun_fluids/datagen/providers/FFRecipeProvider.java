@@ -37,5 +37,13 @@ public class FFRecipeProvider extends RecipeProvider {
                 .requires(Items.WATER_BUCKET)
                 .unlockedBy("has_dragon_breath", has(Items.DRAGON_BREATH))
                 .save(recipeOutput);
+        ShapelessRecipeBuilder.shapeless(
+                RecipeCategory.MISC,
+                new ItemStack(ItemRegistry.CONFIGURABLE_FLUID_BUCKET)
+        ).requires(Items.ICE)
+                .requires(Items.BUCKET)
+                .requires(Items.CAMPFIRE)
+                .unlockedBy("has_ice", has(Items.ICE))
+                .save(recipeOutput);
     }
 }

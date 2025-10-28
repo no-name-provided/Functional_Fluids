@@ -8,8 +8,9 @@ what you want, and follow along while writing your own mod.
   Fluid examples include:
   </p> 
 <ul>
-      <li>Cool Lava - Full recreation of vanilla lava EXCEPT for fire/ignition</li>
-      <li>Thick Air - Fully transparent, non-flowing fluid. Balanced alternative to creative flight. Good for airlocks and underwater bubbles</li>
+    <li>Cool Lava - Full recreation of vanilla lava EXCEPT for fire/ignition</li>
+    <li>Thick Air - Fully transparent, non-flowing fluid. Balanced alternative to creative flight. Good for airlocks and underwater bubbles</li>
+    <li>Configurable Fluid - A fluid with properties specified by the common config. Demonstrates datagenning dynamic fluid models, using common textures, and dynamically tinting items.</li>
 </ul>
 
   <p>

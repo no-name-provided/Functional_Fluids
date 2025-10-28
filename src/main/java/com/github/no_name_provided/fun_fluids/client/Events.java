@@ -2,16 +2,23 @@ package com.github.no_name_provided.fun_fluids.client;
 
 import com.github.no_name_provided.fun_fluids.common.CommonConfig;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
+import com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
@@ -21,6 +28,23 @@ import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
 @ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
 @EventBusSubscriber(modid=MODID)
 public class Events {
+
+    /**
+     * This is where we tell Minecraft which fluids are translucent.
+     * This doesn't make them invisible, it just allows us to see
+     * shapes behind them (like glass).
+     * <p>
+     * This only has an effect if the texture file contains translucent
+     * layers (less than 100 opacity) or empty space.
+     * </p>
+     * */
+    @SubscribeEvent
+    static void onClientSetup(FMLClientSetupEvent event) {
+        // ItemBlockRenderTypes.setRenderLayer is deprecated for regular blocks, and specified in their model files instead.
+        ItemBlockRenderTypes.setRenderLayer(FluidRegistries.FunFluids.THICK_AIR_FLUID.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(FluidRegistries.FunFluids.CONFIGURABLE_FLUID.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(FluidRegistries.FunFluids.FLOWING_CONFIGURABLE_FLUID.get(), RenderType.translucent());
+    }
 
     /**
      * This is where we set fluid tint, under fluid overlay, fluid overlay, still and flowing textures and custom
@@ -152,6 +176,20 @@ public class Events {
                     }
                 },
                 FluidRegistries.FunFluidTypes.C_FLUID
+        );
+    }
+    @SubscribeEvent
+    public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
+        // Parameters are the items's state, the level the item is in, the block's position, and the tint index.
+        // The level and position may be null.
+        event.register((stack, tintIndex) -> {
+                    if (tintIndex == 1) {
+                        return CommonConfig.cFColor;
+                    } else {
+                        return event.getItemColors().getColor(new ItemStack(Items.BUCKET), 0);
+                    }
+                },
+                ItemRegistry.CONFIGURABLE_FLUID_BUCKET.get()
         );
     }
 }

@@ -23,11 +23,12 @@ public class CommonConfig {
     private static final ModConfigSpec.BooleanValue CF_RIDE_UNDER = BUILDER.comment("Should players be able to ride under the configurable fluid?").define("cFRideUnder", true);
     private static final ModConfigSpec.BooleanValue CF_DROWN = BUILDER.comment("Can the configurable fluid drown players?").define("cFDrown", true);
     private static final ModConfigSpec.BooleanValue CF_SWIM = BUILDER.comment("Can you swim in the configurable fluid?").define("cFSwim", true);
-    private static final ModConfigSpec.IntValue CF_COLOR = BUILDER.comment("Configurable fluid color (ARGB)?").defineInRange("cFColor", -12618012, Integer.MIN_VALUE, Integer.MAX_VALUE);
     private static final ModConfigSpec.DoubleValue CF_PUSH_STRENGTH = BUILDER.comment("How hard should the configurable fluid push? (values between 0 and 0.1 are normal)").defineInRange("cFPushStrength", 0.05, -100.0, 100.0);
+    private static final ModConfigSpec.IntValue CF_COLOR = BUILDER.comment("Configurable fluid color (ARGB)?").defineInRange("cFColor", -12618012, Integer.MIN_VALUE, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue CF_DAMAGE_MULTIPLIER = BUILDER.comment("How much should the configurable fluid scale fall damage?").defineInRange("cFDamageMultiplier", 0, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue CF_LIGHT = BUILDER.comment("How much light should the configurable fluid emit?").defineInRange("cFLight", 0, 0, 15);
     private static final ModConfigSpec.IntValue CF_RESPONSIVENESS = BUILDER.comment("How responsive should the configurable fluid be (ticks, higher is slower)?").defineInRange("cFResponsiveness", 5, 0, 15);
+    private static final ModConfigSpec.IntValue CF_SLOPE_FIND_DISTANCE = BUILDER.comment("How far should the configurable fluid look for height changes before deciding where to flow?").defineInRange("cFHeightChangeDistance", 3, 1, 8);
     private static final ModConfigSpec.EnumValue<Rarity> CF_RARITY = BUILDER.comment("How rare should the configurable fluid be?").defineEnum("cFRarity", Rarity.EPIC);
 
 
@@ -42,11 +43,12 @@ public class CommonConfig {
     public static boolean cFRideUnder;
     public static boolean cFDrown;
     public static boolean cFSwim;
-    public static int cFColor;
     public static double cFPushStrength;
+    public static int cFColor;
     public static int cFDamageMultiplier;
     public static int cFLight;
     public static int cFResponsiveness;
+    public static int cFSLopeFindDistance;
     public static Rarity cFRarity;
 
     /**
@@ -55,6 +57,7 @@ public class CommonConfig {
     @SubscribeEvent
     static void onConfigUpdate(final ModConfigEvent event) {
         // A common crash on server stop is caused by trying to check values that have already been unloaded.
+        // #BlameTheNeoForgeTeam
         if (!(event instanceof ModConfigEvent.Unloading) && event.getConfig().getType() == ModConfig.Type.COMMON) {
             cFVisibility = CF_VISIBILITY.get();
             cFBoating = CF_BOATING.get();
@@ -65,11 +68,12 @@ public class CommonConfig {
             cFRideUnder = CF_RIDE_UNDER.get();
             cFDrown = CF_DROWN.get();
             cFSwim = CF_SWIM.get();
-            cFColor = CF_COLOR.get();
             cFPushStrength = CF_PUSH_STRENGTH.get();
+            cFColor = CF_COLOR.get();
             cFDamageMultiplier = CF_DAMAGE_MULTIPLIER.get();
             cFLight = CF_LIGHT.get();
             cFResponsiveness = CF_RESPONSIVENESS.get();
+            cFSLopeFindDistance = CF_SLOPE_FIND_DISTANCE.get();
             cFRarity = CF_RARITY.get();
         }
     }

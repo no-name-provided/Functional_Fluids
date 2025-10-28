@@ -10,8 +10,7 @@ import java.util.function.Supplier;
 
 import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
 import static com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry.*;
-import static com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry.COOL_LAVA_BUCKET;
-import static com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry.THICK_AIR_BUCKET;
+import static com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry.*;
 
 public class FFLanguageProvider extends LanguageProvider {
     public FFLanguageProvider(PackOutput output, String modid, String locale) {
@@ -24,6 +23,7 @@ public class FFLanguageProvider extends LanguageProvider {
 
         addFluidSet("Cool Lava", COOL_LAVA_BLOCK, COOL_LAVA_BUCKET, COOL_LAVA_CAULDRON);
         addFluidSet("Thick Air", THICK_AIR_BLOCK, THICK_AIR_BUCKET);
+        addFluidSet("Configurable Fluid", CONFIGURABLE_FLUID_BLOCK, CONFIGURABLE_FLUID_BUCKET);
     }
 
     /**

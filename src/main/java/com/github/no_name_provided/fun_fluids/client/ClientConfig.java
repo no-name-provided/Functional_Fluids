@@ -26,6 +26,7 @@ public class ClientConfig {
     @SubscribeEvent
     static void onConfigUpdate(final ModConfigEvent event) {
         // A common crash on server stop is caused by trying to check values that have already been unloaded.
+        // #BlameTheNeoForgeTeam
         if (!(event instanceof ModConfigEvent.Unloading) && event.getConfig().getType() == ModConfig.Type.CLIENT) {
             renderThickAir = RENDER_THICK_AIR.get();
         }
