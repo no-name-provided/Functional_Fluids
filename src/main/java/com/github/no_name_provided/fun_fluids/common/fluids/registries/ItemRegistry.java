@@ -20,6 +20,10 @@ public class ItemRegistry {
             "dense_air_bucket",
             () -> new BetterBucketItem(FluidRegistries.FunFluids.THICK_AIR_FLUID.get(), new Item.Properties())
     );
+    public static final DeferredHolder<Item, BucketItem> CONFIGURABLE_FLUID_BUCKET = ITEMS.register(
+            "configurable_fluid_bucket",
+            () -> new BetterBucketItem(FluidRegistries.FunFluids.CONFIGURABLE_FLUID.get(), new Item.Properties())
+    );
 
     public static void register(IEventBus bus) {
         ITEMS.register(bus);

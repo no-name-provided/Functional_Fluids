@@ -1,16 +1,12 @@
 package com.github.no_name_provided.fun_fluids.common;
 
 import com.github.no_name_provided.fun_fluids.FunFluids;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
-
-import java.util.List;
-import java.util.Set;
 
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
@@ -18,35 +14,63 @@ import java.util.Set;
 public class CommonConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    private static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER.comment("Whether to log the dirt block on common setup").define("logDirtBlock", true);
+    private static final ModConfigSpec.BooleanValue CF_VISIBILITY = BUILDER.comment("Should the configurable fluid be invisible?").define("cFVisibility", false);
+    private static final ModConfigSpec.BooleanValue CF_BOATING = BUILDER.comment("Should the configurable fluid support boats?").define("cFBoating", true);
+    private static final ModConfigSpec.BooleanValue CF_HYDRATE = BUILDER.comment("Should the configurable fluid hydrate things?").define("cFHydration", true);
+    private static final ModConfigSpec.BooleanValue CF_INFINITE = BUILDER.comment("Should the configurable fluid be infinite?").define("cFInfinite", true);
+    private static final ModConfigSpec.BooleanValue CF_EXTINGUISHES = BUILDER.comment("Should the configurable fluid put out fires?").define("cExtinguish", true);
+    private static final ModConfigSpec.BooleanValue CF_EVAPORATE_IN_NETHER = BUILDER.comment("Should the configurable evaporate in the nether?").define("cFEvaporateInNether", false);
+    private static final ModConfigSpec.BooleanValue CF_RIDE_UNDER = BUILDER.comment("Should players be able to ride under the configurable fluid?").define("cFRideUnder", true);
+    private static final ModConfigSpec.BooleanValue CF_DROWN = BUILDER.comment("Can the configurable fluid drown players?").define("cFDrown", true);
+    private static final ModConfigSpec.BooleanValue CF_SWIM = BUILDER.comment("Can you swim in the configurable fluid?").define("cFSwim", true);
+    private static final ModConfigSpec.IntValue CF_COLOR = BUILDER.comment("Configurable fluid color (ARGB)?").defineInRange("cFColor", -12618012, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    private static final ModConfigSpec.DoubleValue CF_PUSH_STRENGTH = BUILDER.comment("How hard should the configurable fluid push? (values between 0 and 0.1 are normal)").defineInRange("cFPushStrength", 0.05, -100.0, 100.0);
+    private static final ModConfigSpec.IntValue CF_DAMAGE_MULTIPLIER = BUILDER.comment("How much should the configurable fluid scale fall damage?").defineInRange("cFDamageMultiplier", 0, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue CF_LIGHT = BUILDER.comment("How much light should the configurable fluid emit?").defineInRange("cFLight", 0, 0, 15);
+    private static final ModConfigSpec.IntValue CF_RESPONSIVENESS = BUILDER.comment("How responsive should the configurable fluid be (ticks, higher is slower)?").defineInRange("cFResponsiveness", 5, 0, 15);
+    private static final ModConfigSpec.EnumValue<Rarity> CF_RARITY = BUILDER.comment("How rare should the configurable fluid be?").defineEnum("cFRarity", Rarity.EPIC);
 
-    private static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER.comment("A magic number").defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
-
-    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER.comment("What you want the introduction message to be for the magic number").define("magicNumberIntroduction", "The magic number is... ");
-
-    // a list of strings that are treated as resource locations for items
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER.comment("A list of items to log on common setup.").defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), CommonConfig::validateItemName);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
-    public static boolean logDirtBlock;
-    public static int magicNumber;
-    public static String magicNumberIntroduction;
-    public static Set<Item> items;
+    public static boolean cFVisibility;
+    public static boolean cFBoating;
+    public static boolean cFHydrate;
+    public static boolean cFInfinite;
+    public static boolean cExtinguish;
+    public static boolean cFEvaporateInNether;
+    public static boolean cFRideUnder;
+    public static boolean cFDrown;
+    public static boolean cFSwim;
+    public static int cFColor;
+    public static double cFPushStrength;
+    public static int cFDamageMultiplier;
+    public static int cFLight;
+    public static int cFResponsiveness;
+    public static Rarity cFRarity;
 
-    private static boolean validateItemName(final Object obj) {
-        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
-    }
-
-
-
+    /**
+     * This should update the configurable constants every time this config is loaded or reloaded.
+     * */
     @SubscribeEvent
-    static void onLoad(final ModConfigEvent event) {
-//        logDirtBlock = LOG_DIRT_BLOCK.get();
-//        magicNumber = MAGIC_NUMBER.get();
-//        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
-//
-//        // convert the list of strings into a set of items
-//        items = ITEM_STRINGS.get().stream().map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName))).collect(Collectors.toSet());
+    static void onConfigUpdate(final ModConfigEvent event) {
+        // A common crash on server stop is caused by trying to check values that have already been unloaded.
+        if (!(event instanceof ModConfigEvent.Unloading) && event.getConfig().getType() == ModConfig.Type.COMMON) {
+            cFVisibility = CF_VISIBILITY.get();
+            cFBoating = CF_BOATING.get();
+            cFHydrate = CF_HYDRATE.get();
+            cFInfinite = CF_INFINITE.get();
+            cExtinguish = CF_EXTINGUISHES.get();
+            cFEvaporateInNether = CF_EVAPORATE_IN_NETHER.get();
+            cFRideUnder = CF_RIDE_UNDER.get();
+            cFDrown = CF_DROWN.get();
+            cFSwim = CF_SWIM.get();
+            cFColor = CF_COLOR.get();
+            cFPushStrength = CF_PUSH_STRENGTH.get();
+            cFDamageMultiplier = CF_DAMAGE_MULTIPLIER.get();
+            cFLight = CF_LIGHT.get();
+            cFResponsiveness = CF_RESPONSIVENESS.get();
+            cFRarity = CF_RARITY.get();
+        }
     }
 }

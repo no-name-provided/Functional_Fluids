@@ -3,6 +3,7 @@ package com.github.no_name_provided.fun_fluids.client;
 import com.github.no_name_provided.fun_fluids.FunFluids;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -20,12 +21,12 @@ public class ClientConfig {
     public static boolean renderThickAir;
 
     /**
-     * This should update the configurable constants every time the config is loaded or reloaded.
+     * This should update the configurable constants every time this config is loaded or reloaded.
      * */
     @SubscribeEvent
     static void onConfigUpdate(final ModConfigEvent event) {
         // A common crash on server stop is caused by trying to check values that have already been unloaded.
-        if (!(event instanceof ModConfigEvent.Unloading)) {
+        if (!(event instanceof ModConfigEvent.Unloading) && event.getConfig().getType() == ModConfig.Type.CLIENT) {
             renderThickAir = RENDER_THICK_AIR.get();
         }
     }

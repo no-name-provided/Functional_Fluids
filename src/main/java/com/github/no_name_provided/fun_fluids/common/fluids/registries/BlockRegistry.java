@@ -1,5 +1,6 @@
 package com.github.no_name_provided.fun_fluids.common.fluids.registries;
 
+import com.github.no_name_provided.fun_fluids.common.CommonConfig;
 import com.github.no_name_provided.fun_fluids.common.blocks.CoolLavaCauldronBlock;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -40,7 +41,23 @@ public class BlockRegistry {
                             .replaceable()
                             .noCollission()
                             .strength(100.0f)
-                            .lightLevel(state -> 15)
+                            .lightLevel(state -> 0)
+                            .pushReaction(PushReaction.DESTROY)
+                            .noLootTable()
+                            .liquid()
+                            .sound(SoundType.EMPTY)
+            )
+    );
+    public static final DeferredHolder<Block, LiquidBlock> CONFIGURABLE_FLUID_BLOCK = FLUID_BLOCKS.register(
+            "configurable_fluid_block",
+            () -> new LiquidBlock(
+                    FluidRegistries.FunFluids.CONFIGURABLE_FLUID.get(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.GLOW_LICHEN)
+                            .replaceable()
+                            .noCollission()
+                            .strength(100.0f)
+                            .lightLevel(state -> CommonConfig.cFLight)
                             .pushReaction(PushReaction.DESTROY)
                             .noLootTable()
                             .liquid()

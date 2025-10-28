@@ -1,7 +1,9 @@
 package com.github.no_name_provided.fun_fluids.common.fluids.registries;
 
+import com.github.no_name_provided.fun_fluids.common.fluids.ConfigurableFluid;
 import com.github.no_name_provided.fun_fluids.common.fluids.CoolLavaFluid;
 import com.github.no_name_provided.fun_fluids.common.fluids.ThickAirFluid;
+import com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes.ConfigurableFluidType;
 import com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes.CoolLavaFluidType;
 import com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes.ThickAirFluidType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,11 +29,18 @@ public class FluidRegistries {
                 "cool_lava",
                 CoolLavaFluid.Source::new
         );
-
         // Since this fluid has no flowing variant, we only need to register a source block.
         public static final DeferredHolder<Fluid, ThickAirFluid> THICK_AIR_FLUID = FLUIDS.register(
                 "thick_air",
                 ThickAirFluid::new
+        );
+        public static final DeferredHolder<Fluid, ConfigurableFluid.Flowing> FLOWING_CONFIGURABLE_FLUID = FLUIDS.register(
+                "flowing_configurable_fluid",
+                ConfigurableFluid.Flowing::new
+        );
+        public static final DeferredHolder<Fluid, ConfigurableFluid.Source> CONFIGURABLE_FLUID = FLUIDS.register(
+                "configurable_fluid",
+                ConfigurableFluid.Source::new
         );
     }
 
@@ -45,6 +54,10 @@ public class FluidRegistries {
         public static final DeferredHolder<FluidType, ThickAirFluidType> THICK_AIR = FLUID_TYPES.register(
                 "thick_air",
                 ThickAirFluidType::new
+        );
+        public static final DeferredHolder<FluidType, ConfigurableFluidType> C_FLUID = FLUID_TYPES.register(
+                "c_fluid",
+                ConfigurableFluidType::new
         );
     }
 
