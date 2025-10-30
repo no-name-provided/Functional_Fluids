@@ -1,4 +1,4 @@
-Functional Fluids is an example/tutorial mod that demonstrates fluid registration and the implementation of associated
+<b>Fun</b><sub>ctional</sub> <b>Fluids</b> is an example/tutorial mod that demonstrates fluid registration and the implementation of associated
 functionality (cauldrons, buckets, etc.). It was created as a response to the state of fluid
 documentation, the dysfunction of "official" documentation, and frequent complaints about the difficulty of
 implementing fluids. In this mod, you will find full examples of common fluid implementations and copious
