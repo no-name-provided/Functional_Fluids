@@ -64,7 +64,7 @@ public class ThickAirFluidType extends FluidType {
         double entityHeight = entity.getY();
         BlockPos blockpos = entity.getBlockPosBelowThatAffectsMyMovement();
         float f2 = entity.level().getBlockState(entity.getBlockPosBelowThatAffectsMyMovement()).getFriction(entity.level(), entity.getBlockPosBelowThatAffectsMyMovement(), entity);
-        float f3 = entity.onGround() ? f2 * 0.91F : 0.91F;
+        float f3 = entity.onGround() ? f2 * 0.91f : 0.91f;
         Vec3 correctedTravelVector = entity.handleRelativeFrictionAndCalculateMovement(travelVector, f2);
         double deltaY = correctedTravelVector.y;
         if (entity.hasEffect(MobEffects.LEVITATION)) {
@@ -85,7 +85,7 @@ public class ThickAirFluidType extends FluidType {
             } else {
                 correctedTravelVector = new Vec3(
                         correctedTravelVector.x * (double) f3,
-                        entity instanceof FlyingAnimal ? deltaY * (double) f3 : deltaY * 0.98F,
+                        entity instanceof FlyingAnimal ? deltaY * (double) f3 : deltaY * 0.98f,
                         correctedTravelVector.z * (double) f3
                 );
             }
@@ -95,11 +95,11 @@ public class ThickAirFluidType extends FluidType {
         if (!flag) {
             correctedTravelVector = correctedTravelVector.multiply(0.95, 0.8f, 0.95);
             correctedTravelVector = entity.getFluidFallingAdjustedMovement(gravity, flag, correctedTravelVector);
-            if (entity.isFree(correctedTravelVector.x, correctedTravelVector.y + 0.6F - entity.getY() + entityHeight, correctedTravelVector.z)) {
-                entity.setDeltaMovement(correctedTravelVector.x, 0.3F, correctedTravelVector.z);
+            if (entity.isFree(correctedTravelVector.x, correctedTravelVector.y + 0.6f - entity.getY() + entityHeight, correctedTravelVector.z)) {
+                entity.setDeltaMovement(correctedTravelVector.x, 0.3f, correctedTravelVector.z);
             }
         } else {
-            correctedTravelVector = correctedTravelVector.multiply(0.5, 1f, 0.5);
+            correctedTravelVector = correctedTravelVector.multiply(0.5, 0.1f, 0.5);
         }
 
         // This bit finishes up

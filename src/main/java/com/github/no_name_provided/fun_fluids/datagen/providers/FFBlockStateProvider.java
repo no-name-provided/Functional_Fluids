@@ -29,5 +29,9 @@ public class FFBlockStateProvider extends BlockStateProvider {
                 THICK_AIR_BLOCK.get(),
                 models().cubeAll("thick_air", modLoc("block/transparent"))
         );
+        simpleBlock(
+                CONFIGURABLE_FLUID_BLOCK.get(),
+                models().getExistingFile(mcLoc("water"))
+        );
     }
 }

@@ -1,11 +1,15 @@
 package com.github.no_name_provided.fun_fluids.common.fluids;
 
+import com.github.no_name_provided.fun_fluids.client.ClientConfig;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,6 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Example implementation of a fluid that doesn't flow. You'll probably want to use a custom transparent, intangible
@@ -89,11 +94,36 @@ public class ThickAirFluid extends FlowingFluid {
         return Shapes.block();
     }
 
-    @Override public FluidType getFluidType() {
+    @Override
+    public FluidType getFluidType() {
         return FluidRegistries.FunFluidTypes.THICK_AIR.get();
     }
 
+    /**
+     * Basic animation is handled with an extended texture file and a corresponding mcmeta file. This is for
+     * special effects (intermittent effects, dynamic effects, audio).
+     * */
+    @Override
+    protected void animateTick(Level level, BlockPos pos, FluidState state, RandomSource random) {
+        if (level.isClientSide) { //TODO: make sure this is redundant/this method isn't called on server
+            if (ClientConfig.showThickAirParticles && random.nextInt(ClientConfig.thickAirParticleSlowDownFactor) == 0) {
+                level.addParticle(
+                        ParticleTypes.SNEEZE,
+                        pos.getX() + nextDouble(-1.5, 0.5),
+                        pos.getY() + nextDouble(-1.5, 0.5),
+                        pos.getZ() + nextDouble(-1.5, 0.5),
+                        nextDouble(-.1, .1),
+                        nextDouble(-.1, .1),
+                        nextDouble(-.1, .1)
+                );
+            }
+        }
+    }
+
     // Overrides associated with flowing fluids
+    /**
+     * Here we tell the game to just use a source block anytim it would try to generate a flowing block.
+     * */
     @Override
     public Fluid getFlowing() {
         return getSource();
@@ -141,4 +171,9 @@ public class ThickAirFluid extends FlowingFluid {
         builder.add(LEVEL);
     }
 
+    private double nextDouble(double lower, double upper) {
+        // We use ThreadLocalRandom here for guaranteed multithreaded performance... and because it has
+        // convenience methods for doubles.
+        return ThreadLocalRandom.current().nextDouble(lower, upper);
+    }
 }

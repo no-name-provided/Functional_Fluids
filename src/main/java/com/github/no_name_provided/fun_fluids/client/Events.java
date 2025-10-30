@@ -21,6 +21,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -56,7 +57,6 @@ public class Events {
 //        final ResourceLocation UNDER_COOL_LAVA_LOCATION = ResourceLocation.parse("textures/misc/underwater.png");
         final ResourceLocation COOL_LAVA_STILL = ResourceLocation.withDefaultNamespace("block/lava_still");
         final ResourceLocation COOL_LAVA_FLOW = ResourceLocation.withDefaultNamespace("block/lava_flow");
-//        final ResourceLocation COOL_LAVA_OVERLAY = ResourceLocation.fromNamespaceAndPath(MODID, "block/water_overlay");
 
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
@@ -74,24 +74,15 @@ public class Events {
                         return COOL_LAVA_FLOW;
                     }
 
-//                    @Override
-//                    public ResourceLocation getOverlayTexture() {
-//                        return COOL_LAVA_OVERLAY;
-//                    }
-
-//                    @Override @ParametersAreNonnullByDefault
-//                    public ResourceLocation getRenderOverlayTexture(Minecraft minecraft) {
-//                        return UNDER_COOL_LAVA_LOCATION;
-//                    }
-
                 },
                 FluidRegistries.FunFluidTypes.COOL_LAVA
         );
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
 
-                    final ResourceLocation THICK_AIR_STILL = ResourceLocation.fromNamespaceAndPath(MODID, "block/transparent");
-                    final ResourceLocation THICK_AIR_FLOW = ResourceLocation.fromNamespaceAndPath(MODID, "block/transparent");
+                    final ResourceLocation THICK_AIR_STILL = ResourceLocation.fromNamespaceAndPath(MODID, "block/thick_air");
+                    final ResourceLocation THICK_AIR_FLOW = ResourceLocation.fromNamespaceAndPath(MODID, "block/thick_air");
+                    final ResourceLocation THICK_AIR_UNDER_FLUID_OVERLAY = ResourceLocation.withDefaultNamespace("textures/misc/underwater.png");
 
                     @Override
                     public ResourceLocation getFlowingTexture() {
@@ -101,6 +92,23 @@ public class Events {
                     @Override
                     public ResourceLocation getStillTexture() {
                         return THICK_AIR_FLOW;
+                    }
+
+                    /**
+                     * Returns the location of the texture to apply to the camera when it is
+                     * within the fluid. If no location is specified, no overlay will be applied.
+                     *
+                     * <p>This should return a location to the texture and not a reference
+                     * (e.g. {@code minecraft:textures/misc/underwater.png} will use the texture
+                     * at {@code assets/minecraft/textures/misc/underwater.png}).
+                     *
+                     * @param mc the client instance
+                     * @return the location of the texture to apply to the camera when it is
+                     * within the fluid
+                     */
+                    @Override
+                    public @Nullable ResourceLocation getRenderOverlayTexture(Minecraft mc) {
+                        return ClientConfig.renderUnderThickAirOverlay ? THICK_AIR_UNDER_FLUID_OVERLAY : null;
                     }
 
                     /**
@@ -124,7 +132,7 @@ public class Events {
                     // I'd recommend just using those and applying a tint.
                     final ResourceLocation C_FLUID_STILL = ResourceLocation.withDefaultNamespace("block/water_still");
                     final ResourceLocation C_FLUID_FLOW = ResourceLocation.withDefaultNamespace("block/water_flow");
-                    // This is the only vanilla water texture that's colored, so it probably shouldn't be reused.
+                    // This is the only vanilla water texture that's strongly colored, so it probably shouldn't be reused.
                     final ResourceLocation C_FLUID_OVERLAY = ResourceLocation.withDefaultNamespace("block/water_overlay");
                     final ResourceLocation UNDER_C_FLUID_LOCATION = ResourceLocation.withDefaultNamespace("textures/misc/underwater.png");
 
@@ -180,7 +188,7 @@ public class Events {
     }
     @SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
-        // Parameters are the items's state, the level the item is in, the block's position, and the tint index.
+        // Parameters are the item's state, the level the item is in, the block's position, and the tint index.
         // The level and position may be null.
         event.register((stack, tintIndex) -> {
                     if (tintIndex == 1) {
