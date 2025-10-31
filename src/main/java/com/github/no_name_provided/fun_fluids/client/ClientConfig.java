@@ -17,6 +17,9 @@ public class ClientConfig {
     private static final ModConfigSpec.BooleanValue SHOW_THICK_AIR_PARTICLES = BUILDER
             .comment("Show thick air particles?")
             .define("showThickAirParticles", true);
+    private static final ModConfigSpec.BooleanValue TRANSPARENT_MIST_PARTICLES = BUILDER
+            .comment("Should thick air particles be transparent? (will affect rendering behind fluid)")
+            .define("translucentMistParticles", true);
     private static final ModConfigSpec.BooleanValue RENDER_THICK_AIR_OVERLAY = BUILDER
             .comment("Show \"fog\" when submerged in thick air?")
             .define("showThickAirParticles", true);
@@ -28,6 +31,7 @@ public class ClientConfig {
 
     public static boolean renderThickAir;
     public static boolean showThickAirParticles;
+    public static boolean translucentMistParticles;
     public static boolean renderUnderThickAirOverlay;
     public static int thickAirParticleSlowDownFactor;
 
@@ -41,6 +45,7 @@ public class ClientConfig {
         if (!(event instanceof ModConfigEvent.Unloading) && event.getConfig().getType() == ModConfig.Type.CLIENT) {
             renderThickAir = RENDER_THICK_AIR.get();
             showThickAirParticles = SHOW_THICK_AIR_PARTICLES.get();
+            translucentMistParticles = TRANSPARENT_MIST_PARTICLES.get();
             renderUnderThickAirOverlay = RENDER_THICK_AIR_OVERLAY.get();
             thickAirParticleSlowDownFactor = THICK_AIR_PARTICLE_SLOWDOWN_FACTOR.get();
         }

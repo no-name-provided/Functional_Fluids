@@ -1,10 +1,13 @@
-package com.github.no_name_provided.fun_fluids.common.fluids;
+package com.github.no_name_provided.fun_fluids.common;
 
+import com.github.no_name_provided.fun_fluids.client.particles.MistParticle;
+import com.github.no_name_provided.fun_fluids.client.registries.ParticleRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.fluids.FluidInteractionRegistry;
@@ -48,6 +51,13 @@ public class Events {
                         (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(Blocks.SOUL_SOIL) && level.getBlockState(relativePos).is(Blocks.BLUE_ICE),
                         Blocks.BASALT.defaultBlockState())
         );
+    }
 
+    /**
+     * Just part of the thick air fancy rendering. Not really fluid code.
+     * */
+    @SubscribeEvent
+    static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ParticleRegistry.MIST_PARTICLE.get(), MistParticle.Provider::new);
     }
 }

@@ -1,6 +1,7 @@
 package com.github.no_name_provided.fun_fluids.common.fluids;
 
 import com.github.no_name_provided.fun_fluids.client.ClientConfig;
+import com.github.no_name_provided.fun_fluids.client.registries.ParticleRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry;
@@ -108,13 +109,13 @@ public class ThickAirFluid extends FlowingFluid {
         if (level.isClientSide) { //TODO: make sure this is redundant/this method isn't called on server
             if (ClientConfig.showThickAirParticles && random.nextInt(ClientConfig.thickAirParticleSlowDownFactor) == 0) {
                 level.addParticle(
-                        ParticleTypes.SNEEZE,
+                        ParticleRegistry.MIST_PARTICLE.get(),
                         pos.getX() + nextDouble(-1.5, 0.5),
-                        pos.getY() + nextDouble(-1.5, 0.5),
+                        pos.getY() + nextDouble(-.5, 0.5),
                         pos.getZ() + nextDouble(-1.5, 0.5),
-                        nextDouble(-.1, .1),
-                        nextDouble(-.1, .1),
-                        nextDouble(-.1, .1)
+                        nextDouble(-.01, .01),
+                        nextDouble(-.01, .01),
+                        nextDouble(-.01, .01)
                 );
             }
         }

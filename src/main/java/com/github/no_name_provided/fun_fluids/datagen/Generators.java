@@ -38,5 +38,6 @@ public class Generators {
         generator.addProvider(event.includeClient(), new FFItemModelProvider(packOutput, MODID, existingFileHelper));
         generator.addProvider(event.includeClient(), new FFBlockStateProvider(packOutput, MODID, existingFileHelper));
         generator.addProvider(event.includeClient(), new FFLanguageProvider(packOutput, MODID, Locale.US.toString().toLowerCase()));
+        generator.addProvider(event.includeClient(), new FFParticleDescriptionProvider(packOutput, existingFileHelper));
     }
 }

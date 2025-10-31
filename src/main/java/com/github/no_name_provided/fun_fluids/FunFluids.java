@@ -1,6 +1,7 @@
 package com.github.no_name_provided.fun_fluids;
 
 import com.github.no_name_provided.fun_fluids.client.ClientConfig;
+import com.github.no_name_provided.fun_fluids.client.registries.ParticleRegistry;
 import com.github.no_name_provided.fun_fluids.common.CommonConfig;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
@@ -62,6 +63,7 @@ public class FunFluids {
         FluidRegistries.register(modEventBus);
         BlockRegistry.register(modEventBus);
         ItemRegistry.register(modEventBus);
+        ParticleRegistry.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register config file(s). It's recommended to use common, as the other types don't synchronize in multiplayer.

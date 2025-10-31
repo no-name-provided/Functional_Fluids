@@ -1,5 +1,6 @@
 package com.github.no_name_provided.fun_fluids.common.fluids;
 
+import com.github.no_name_provided.fun_fluids.common.Events;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.ItemRegistry;
@@ -161,7 +162,7 @@ public abstract class CoolLavaFluid extends FlowingFluid {
      * We have to handle any fluid interaction event with fluids below our block here. The idiomatic way to handle
      * every other interaction event is with a - you guessed it - registry. Specifically,
      * a wierd one at FluidInteractionRegistry.java.
-     * @see com.github.no_name_provided.fun_fluids.common.fluids.Events#onServerAboutToStart
+     * @see Events#onServerAboutToStart
      * */
     @Override
     protected void spreadTo(LevelAccessor level, BlockPos pos, BlockState blockState, Direction direction, FluidState fluidState) {
