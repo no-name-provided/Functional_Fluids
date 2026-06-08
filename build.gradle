@@ -27,6 +27,17 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 base {
@@ -43,12 +54,12 @@ neoForge {
     // accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Add interface injections
-    interfaceInjectionData.from 'src/main/resources/META-INF/interface_injection.json'
+//    interfaceInjectionData.from 'src/main/resources/META-INF/interface_injection.json'
     //'src/main/resources/META-INF/interface_injection.json'
 
-    interfaceInjectionData {
-        publish file("interface_injections.json")
-    }
+//    interfaceInjectionData {
+//        publish file("interface_injections.json")
+//    }
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -120,6 +131,9 @@ dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     // at runtime, use the full JEI jar for NeoForge
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+//    compileOnly("maven.modrinth:community-fluid-api:0.1.0")
+//    runtimeOnly("maven.modrinth:community-fluid-api:cAU5aBD0")
 
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
