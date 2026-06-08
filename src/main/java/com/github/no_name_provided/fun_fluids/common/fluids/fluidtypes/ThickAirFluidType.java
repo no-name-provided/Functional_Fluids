@@ -71,6 +71,7 @@ public class ThickAirFluidType extends TaggedFluidType {
     public boolean move(FluidState state, LivingEntity entity, Vec3 travelVector, double gravity) {
         // The following code is copied, with significant modifications, from LivingEntity#travel.
         // A more robust alternative would be a well-crafted mixin.
+        // Could stand to be updated, now that the simplified, updated, deobfuscated code is available to reference
         
         // This bit handles the walking around logic.
         boolean flag = entity.horizontalCollision;

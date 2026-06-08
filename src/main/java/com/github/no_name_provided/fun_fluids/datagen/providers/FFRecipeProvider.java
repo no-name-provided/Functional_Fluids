@@ -15,8 +15,17 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
 
+/**
+ * This is where we create our recipe files.
+ */
 @ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
 public class FFRecipeProvider extends RecipeProvider {
+    /**
+     * We need to reference this later, and the corresponding field in our superclass is access-restricted.
+     * <p>
+     * Alternatively, you could use an Access Transformer.
+     * </p>
+     */
     private final RecipeOutput recipeOutput;
     
     public FFRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
@@ -24,6 +33,9 @@ public class FFRecipeProvider extends RecipeProvider {
         this.recipeOutput = recipeOutput;
     }
     
+    /**
+     * This is where we actually "register" our recipes.
+     */
     @Override
     protected void buildRecipes() {
         shapeless(
@@ -63,16 +75,31 @@ public class FFRecipeProvider extends RecipeProvider {
         // No default recipe for buckets of Flood because they're too dangerous
     }
     
+    /**
+     * This is what we "register"; it consumes our CompletableFuture and runs our provider.
+     */
     public static class Runner extends RecipeProvider.Runner {
         public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
             super(output, lookupProvider);
         }
         
+        /**
+         * Provides our recipe provider.
+         *
+         * @param provider Can be used to query registries.
+         * @param output   The relevant RecipeOutput.
+         * @return The RecipeProvider.
+         */
         @Override
         protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
             return new FFRecipeProvider(provider, output);
         }
         
+        /**
+         * Returns an identifier for this runner.
+         *
+         * @return An arbitrary, unique identifier.
+         */
         @Override
         public String getName() {
             return MODID + "_recipe_provider";

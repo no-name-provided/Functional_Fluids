@@ -1,5 +1,6 @@
 package com.github.no_name_provided.fun_fluids.datagen.providers;
 
+import com.github.no_name_provided.fun_fluids.FunFluids;
 import com.github.no_name_provided.fun_fluids.client.tints.item.FluidTint;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.BlockRegistry;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
@@ -26,13 +27,16 @@ import static net.minecraft.client.data.models.BlockModelGenerators.createSimple
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 /**
- * Not only have our convenience methods generally been removed, or made more verbose, we're now forced to put all our
- * model generation in a single file.
+ * This is where we create our item model, block model, and blockstate files.
+ * <p>
+ * Note for updaters: not only have our convenience methods generally been removed, or made more verbose, we're now
+ * forced to put all our model generation in a single file.
+ * </p>
  */
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
 public class FFModelProvider extends ModelProvider {
-    public FFModelProvider(PackOutput output, String modid) {
-        super(output, modid);
+    public FFModelProvider(PackOutput output) {
+        super(output, FunFluids.MODID);
     }
     
     /**

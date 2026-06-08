@@ -53,14 +53,6 @@ neoForge {
     // This line is optional. Access Transformers are automatically detected
     // accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
 
-    // Add interface injections
-//    interfaceInjectionData.from 'src/main/resources/META-INF/interface_injection.json'
-    //'src/main/resources/META-INF/interface_injection.json'
-
-//    interfaceInjectionData {
-//        publish file("interface_injections.json")
-//    }
-
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
@@ -132,25 +124,11 @@ dependencies {
     // at runtime, use the full JEI jar for NeoForge
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
+    // Compile and run against the Community Fluid API; should probably be replaced with a jit.io repo reference
 //    compileOnly("maven.modrinth:community-fluid-api:0.1.0")
 //    runtimeOnly("maven.modrinth:community-fluid-api:cAU5aBD0")
-
-    // Example mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
-    // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
-
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
-
-    // Example mod dependency using a file as dependency
-    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
-
-    // Example project dependency using a sister or child project:
-    // implementation project(":myproject")
+    compileOnly("curse.maven:community-fluid-api-1568813:8216217")
+    runtimeOnly("curse.maven:community-fluid-api-1568813:8216217")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
@@ -176,10 +154,6 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
     from "src/main/templates"
     into "build/generated/sources/modMetadata"
 }
-
-//interfaceInjections {
-//    file 'src/main/resources/META-INF/interfaceinjection.json'
-//}
 
 // Include the output of "generateModMetadata" as an input directory for the build
 // this works with both building through Gradle and the IDE.

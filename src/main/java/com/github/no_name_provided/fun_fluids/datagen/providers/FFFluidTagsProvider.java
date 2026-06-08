@@ -14,12 +14,13 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
 
+/**
+ * This is where we create our fluid tags. It also supplies our tag keys; most mods choose to silo those in a separate
+ * file, but that's kind of pointless when you only add a few.
+ */
 @ParametersAreNonnullByDefault
 public class FFFluidTagsProvider extends FluidTagsProvider {
-    // Strangely, there's no vanilla (or Neo) tag for empty fluids. Perhaps to discourage making alternate empty fluids.
-    // Recommended you don't use this tag, either for labeling or checking
-    public static final TagKey<Fluid> EMPTY = create("empty");
-    
+    // Tags used for net.minecraft.world.entity.EntityFluidInteraction, which tracks entity fluid contact
     public static final TagKey<Fluid> COOL_LAVA = create("cool_lava");
     public static final TagKey<Fluid> THICK_AIR = create("thick_air");
     public static final TagKey<Fluid> CONFIGURABLE_FLUID = create("configurable_fluid");
@@ -30,6 +31,11 @@ public class FFFluidTagsProvider extends FluidTagsProvider {
         super(output, lookupProvider, MODID);
     }
     
+    /**
+     * This is where we "register" our tags with the datagen system.
+     *
+     * @param registries Can be used to query registries.
+     */
     @Override
     protected void addTags(HolderLookup.Provider registries) {
         // Group fluids
@@ -40,6 +46,12 @@ public class FFFluidTagsProvider extends FluidTagsProvider {
         tag(RIVER_OF_TIME).add(FunFluids.RIVER_OF_TIME_FLUID.get(), FunFluids.FLOWING_RIVER_OF_TIME_FLUID.get());
     }
     
+    /**
+     * Helper method that creates a TagKey<Fluid>.
+     *
+     * @param name the unique string to use as the "path" in the key's identifier.
+     * @return A tag key representing the fluid.
+     */
     private static TagKey<Fluid> create(String name) {
         return TagKey.create(Registries.FLUID, Identifier.fromNamespaceAndPath(MODID, name));
     }

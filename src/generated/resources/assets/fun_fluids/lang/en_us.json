@@ -1,6 +1,7 @@
 {
   "block.fun_fluids.configurable_fluid_block": "Configurable Fluid Block",
   "block.fun_fluids.cool_lava_block": "Cool Lava Block",
+  "block.fun_fluids.cool_lava_cauldron_block": "Cool Lava Cauldron",
   "block.fun_fluids.flood_block": "Flood Block",
   "block.fun_fluids.river_of_time_block": "River of Time Block",
   "block.fun_fluids.thick_air_block": "Thick Air Block",
