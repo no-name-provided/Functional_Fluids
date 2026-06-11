@@ -29,6 +29,10 @@ public class ServerConfig {
     private static final ModConfigSpec.IntValue CF_LIGHT = BUILDER.comment("How much light should the configurable fluid emit?").defineInRange("cFLight", 0, 0, 15);
     private static final ModConfigSpec.IntValue CF_RESPONSIVENESS = BUILDER.comment("How responsive should the configurable fluid be (ticks, higher is slower)?").defineInRange("cFResponsiveness", 5, 0, 15);
     private static final ModConfigSpec.IntValue CF_SLOPE_FIND_DISTANCE = BUILDER.comment("How far should the configurable fluid look for height changes before deciding where to flow?").defineInRange("cFHeightChangeDistance", 3, 1, 8);
+    private static final ModConfigSpec.IntValue CF_DROP_OFF = BUILDER.comment("How much height should the fluid lose whenever it flows to a new block?").defineInRange("cFHeightChangePerBlock", 2, 1, 8);
+    private static final ModConfigSpec.BooleanValue CF_CAN_FISH = BUILDER.comment("Can players fish in the configurable fluid?").define("cFCanFish", true);
+    private static final ModConfigSpec.BooleanValue CF_CAN_STRIDER_STAND_ON = BUILDER.comment("Can players fish in the configurable fluid?").define("cFCanStriderStandOn", true);
+    private static final ModConfigSpec.BooleanValue CF_MOBS_CAN_SPAWN = BUILDER.comment("Can players fish in the configurable fluid?").define("cFMobsCanSpawn", true);
     private static final ModConfigSpec.EnumValue<Rarity> CF_RARITY = BUILDER.comment("How rare should the configurable fluid be?").defineEnum("cFRarity", Rarity.EPIC);
     private static final ModConfigSpec.BooleanValue FLOOD_DECAYS = BUILDER.comment("Should flood blocks decay into regular water?").define("floodDecays", true);
     private static final ModConfigSpec.BooleanValue DESTROY_FLOOD = BUILDER.comment("HELP! I ignored the warnings! (Destroys, but does not reverse the effect of, Flood.)").define("destroyFlood", false);
@@ -44,6 +48,9 @@ public class ServerConfig {
     public static boolean cFRideUnder;
     public static boolean cFDrown;
     public static boolean cFSwim;
+    public static boolean cFCanFish;
+    public static boolean cFCanStriderStandOn;
+    public static boolean cFMobsCanSpawn;
     public static boolean floodDecays;
     public static boolean destroyFlood;
     public static double cFPushStrength;
@@ -51,7 +58,8 @@ public class ServerConfig {
     public static int cFDamageMultiplier;
     public static int cFLight;
     public static int cFResponsiveness;
-    public static int cFSLopeFindDistance;
+    public static int cFSlopeFindDistance;
+    public static int cFDropOff;
     public static Rarity cFRarity;
 
     /**
@@ -78,7 +86,11 @@ public class ServerConfig {
             cFDamageMultiplier = CF_DAMAGE_MULTIPLIER.get();
             cFLight = CF_LIGHT.get();
             cFResponsiveness = CF_RESPONSIVENESS.get();
-            cFSLopeFindDistance = CF_SLOPE_FIND_DISTANCE.get();
+            cFSlopeFindDistance = CF_SLOPE_FIND_DISTANCE.get();
+            cFDropOff = CF_DROP_OFF.get();
+            cFCanFish = CF_CAN_FISH.get();
+            cFCanStriderStandOn = CF_CAN_STRIDER_STAND_ON.get();
+            cFMobsCanSpawn = CF_MOBS_CAN_SPAWN.get();
             cFRarity = CF_RARITY.get();
         }
     }

@@ -4,10 +4,12 @@ import com.github.no_name_provided.fun_fluids.common.ServerConfig;
 import com.github.no_name_provided.fun_fluids.datagen.providers.FFFluidTagsProvider;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
@@ -17,6 +19,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -82,7 +86,27 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public boolean canSwim(Entity entity) {
         return ServerConfig.cFSwim;
     }
-
+    
+    @Override
+    public boolean canFish() {
+        return ServerConfig.cFCanFish;
+    }
+    
+    @Override
+    public ResourceKey<LootTable> getFishingLootTableKey() {
+        return BuiltInLootTables.FISHING;
+    }
+    
+    @Override
+    public boolean entityCanStandOn(Entity stander) {
+        return ServerConfig.cFCanStriderStandOn && stander.is(EntityType.STRIDER);
+    }
+    
+    @Override
+    public boolean canSpawnAquaticMobs(EntityType<?> type) {
+        return ServerConfig.cFMobsCanSpawn;
+    }
+    
     /**
      * Returns how much the fluid should scale the damage done to a falling
      * entity when hitting the ground per tick.

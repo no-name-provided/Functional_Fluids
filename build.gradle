@@ -127,8 +127,8 @@ dependencies {
     // Compile and run against the Community Fluid API; should probably be replaced with a jit.io repo reference
 //    compileOnly("maven.modrinth:community-fluid-api:0.1.0")
 //    runtimeOnly("maven.modrinth:community-fluid-api:cAU5aBD0")
-    compileOnly("curse.maven:community-fluid-api-1568813:8216217")
-    runtimeOnly("curse.maven:community-fluid-api-1568813:8216217")
+    compileOnly("curse.maven:community-fluid-api-1568813:8229907")
+    runtimeOnly("curse.maven:community-fluid-api-1568813:8229907")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

@@ -48,12 +48,12 @@ public abstract class ConfigurableFluid extends FlowingFluid {
 
     @Override
     protected int getSlopeFindDistance(LevelReader level) {
-        return ServerConfig.cFSLopeFindDistance;
+        return ServerConfig.cFSlopeFindDistance;
     }
 
     @Override
     protected int getDropOff(LevelReader level) {
-        return 2;
+        return ServerConfig.cFDropOff;
     }
 
     @Override

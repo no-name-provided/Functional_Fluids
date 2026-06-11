@@ -1,5 +1,6 @@
 package com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes;
 
+import com.github.no_name_provided.cfa.mixin_interfaces.IFluidTypeExtension;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -9,7 +10,7 @@ import net.neoforged.neoforge.fluids.FluidType;
  * a subclass that implements the interfaces methods to trick the compiler into letting us use Override annotation.
  */
 @SuppressWarnings("unused")
-public abstract class TaggedFluidType extends FluidType {
+public abstract class TaggedFluidType extends FluidType implements IFluidTypeExtension {
     public TaggedFluidType(Properties properties) {
         super(properties);
     }
