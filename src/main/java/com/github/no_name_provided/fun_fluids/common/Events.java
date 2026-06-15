@@ -55,9 +55,12 @@ public class Events {
      * This is where we register all fluid interactions that don't involve falling. Arbitrary, I know. Suggested by
      * ChiefArug.
      * </p>
+     * <p>
+     * Public so the Javadoc won't complain, not because you should call it.
+     * </p>
      */
     @SubscribeEvent
-    static void onCommonSetup(FMLCommonSetupEvent event) {
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
         // They seem to work if we "register" them here, so we might as well. For whatever reason, the (Neo)Forge team
         // decided to use a bespoke "registry" (not deferred) with a basic synchronized static addition method.
         // Something about registries not handling "arbitrary obj -> thing" mappings.

@@ -62,7 +62,9 @@ public class FFModelProvider extends ModelProvider {
         // into getting out of our way and suppress vacuous errors in the log. As an alternative, consider
         // overwriting #getKnownBlocks and #getKnownItems.
         BlockRegistry.FLUID_BLOCKS.getEntries().forEach(fluidBlock ->
-                blockModels.createTrivialCube(fluidBlock.get())
+                // These models aren't used, but we'l get log spam if any of the BlockState, BlockModel,
+                // or Texture files are missing. Borrowing from vanilla water fixes that
+                blockModels.createNonTemplateModelBlock(fluidBlock.get(), Blocks.WATER)
         );
         // Generate a simple bucket, copying an existing texture
         itemModels.generateFlatItem(ItemRegistry.COOL_LAVA_BUCKET.get(), Items.LAVA_BUCKET, ModelTemplates.FLAT_ITEM);

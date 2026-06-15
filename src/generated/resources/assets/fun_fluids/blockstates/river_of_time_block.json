@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "fun_fluids:block/river_of_time_block"
+      "model": "minecraft:block/water"
     }
   }
 }

@@ -80,10 +80,16 @@ public class ThickAirFluidType extends TaggedFluidType {
     @Override
     public boolean move(FluidState state, LivingEntity entity, Vec3 travelVector, double gravity) {
         if (entity.onGround() && !entity.isVisuallySwimming()) {
+            // If we're just walking around on land, we don't really want to do anything different,
+            // though you might want to add a tiny bit of slowdown, for immersion
             entity.travelInAir(travelVector);
         } else {
+            // This call requires about a half dozen ATs. Feel free to copy them from
+            // src/main/resources/META-INF/accesstransformer.cfg
             entity.travelInWater(travelVector, gravity, entity.getDeltaMovement().y <= 0.0, entity.getY());
+            // Jumping in air is a finicky thing. It's easiest to just explicitly call it here
             if (entity.isJumping()) {
+                // The 0.02 value was experimentally determined
                 entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.02, 0));
             }
             // For some reason, we need this here or we still manage to take fall damage based on our highest position

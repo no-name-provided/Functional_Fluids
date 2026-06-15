@@ -11,9 +11,9 @@ import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -97,7 +97,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
         return switch (ServerConfig.cFColor % 10) {
             case 0 -> BuiltInLootTables.FISHING_FISH;
             case 1, 2, 3, 4, 5 -> BuiltInLootTables.FISHING_JUNK;
-            // Not OP, since color is controlled by the server
+            // Not OP, since color is controlled by the server and this isn't the default
             case 6 -> BuiltInLootTables.FISHING_TREASURE;
             default -> BuiltInLootTables.FISHING;
         };
@@ -220,7 +220,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
      * @param pos   the position to place the fluid at
      * @param stack the stack holding the fluid being placed
      * @return {@code true} if this fluid should be vaporized on placement, {@code false} otherwise
-     * @see //BucketItem#emptyContents(Player, Level, BlockPos, BlockHitResult)
+     * @see BucketItem#emptyContents(LivingEntity, Level, BlockPos, BlockHitResult, ItemStack)
      */
     @Override
     public boolean isVaporizedOnPlacement(Level level, BlockPos pos, FluidStack stack) {

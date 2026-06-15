@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "fun_fluids:block/cool_lava_block"
+      "model": "minecraft:block/water"
     }
   }
 }
