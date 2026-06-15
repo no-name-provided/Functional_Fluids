@@ -9,6 +9,7 @@ version = mod_version
 group = mod_group_id
 
 repositories {
+    flatDir name: 'libs', dirs: "$projectDir/local_libraries"
     mavenLocal()
     maven {
         // location of the maven that hosts JEI files since January 2023
@@ -27,6 +28,10 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+//    mavenCentral()
+    maven { url 'https://jitpack.io' }
+
     exclusiveContent {
         forRepository {
             maven {
@@ -127,8 +132,13 @@ dependencies {
     // Compile and run against the Community Fluid API; should probably be replaced with a jit.io repo reference
 //    compileOnly("maven.modrinth:community-fluid-api:0.1.0")
 //    runtimeOnly("maven.modrinth:community-fluid-api:cAU5aBD0")
-    compileOnly("curse.maven:community-fluid-api-1568813:8229907")
-    runtimeOnly("curse.maven:community-fluid-api-1568813:8229907")
+//    compileOnly("curse.maven:community-fluid-api-1568813:8229907")
+//    runtimeOnly("curse.maven:community-fluid-api-1568813:8229907")
+//    compileOnly('com.github.no-name-provided:Community-Fluid-API:master-SNAPSHOT')
+//    runtimeOnly('com.github.no-name-provided:Community-Fluid-API:master-SNAPSHOT')
+
+    compileOnly(":cfa:0.3.0")
+    runtimeOnly(":cfa:0.3.0")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

@@ -2,19 +2,31 @@ package com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes;
 
 import com.github.no_name_provided.fun_fluids.datagen.providers.FFFluidTagsProvider;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.golem.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.neoforge.common.SoundActions;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
+
 @ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
 public class RiverOfTimeFluidType extends TaggedFluidType {
+    // Easter Egg - feel free to ignore this key
+    public static final ResourceKey<LootTable> RIVER_OF_TIME_FISHING_LOOT =
+            ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(MODID, "river_of_time_fishing"));
+    
     public RiverOfTimeFluidType() {
         super(Properties.create()
                 // Taken from net.neoforged.neoforge.common.NeoForgeMod.WATER_TYPE
@@ -67,5 +79,12 @@ public class RiverOfTimeFluidType extends TaggedFluidType {
     @Override
     public boolean reducesMiningSpeed() {
         return true;
+    }
+    
+    @Override
+    public ResourceKey<LootTable> getFishingLootTableKey(Level lureLevel, BlockPos lurePos) {
+        // Easter Egg - as a one-off that has nothing to do with fluids,
+        // this table was made using https://misode.github.io/loot-table/.
+        return RIVER_OF_TIME_FISHING_LOOT;
     }
 }

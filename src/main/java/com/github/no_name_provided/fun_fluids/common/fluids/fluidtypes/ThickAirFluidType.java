@@ -3,22 +3,32 @@ package com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes;
 import com.github.no_name_provided.fun_fluids.datagen.providers.FFFluidTagsProvider;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.SoundActions;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
+
 @ParametersAreNonnullByDefault @MethodsReturnNonnullByDefault
 public class ThickAirFluidType extends TaggedFluidType {
+    // Easter Egg - feel free to ignore this key
+    public static final ResourceKey<LootTable> THICK_AIR_FISHING_LOOT =
+            ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(MODID, "thick_air_fishing"));
     
     public ThickAirFluidType() {
         super(Properties.create()
@@ -69,63 +79,80 @@ public class ThickAirFluidType extends TaggedFluidType {
      */
     @Override
     public boolean move(FluidState state, LivingEntity entity, Vec3 travelVector, double gravity) {
-        // The following code is copied, with significant modifications, from LivingEntity#travel.
-        // A more robust alternative would be a well-crafted mixin.
-        // Could stand to be updated, now that the simplified, updated, deobfuscated code is available to reference
-        
-        // This bit handles the walking around logic.
-        boolean flag = entity.horizontalCollision;
-        double entityHeight = entity.getY();
-        BlockPos blockpos = entity.getBlockPosBelowThatAffectsMyMovement();
-        float f2 = entity.level().getBlockState(entity.getBlockPosBelowThatAffectsMyMovement()).getFriction(entity.level(), entity.getBlockPosBelowThatAffectsMyMovement(), entity);
-        float f3 = entity.onGround() ? f2 * 0.91f : 0.91f;
-        Vec3 correctedTravelVector = entity.handleRelativeFrictionAndCalculateMovement(travelVector, f2);
-        double deltaY = correctedTravelVector.y;
-        if (entity.hasEffect(MobEffects.LEVITATION)) {
-            //noinspection DataFlowIssue - Shouldn't be null since we just checked for it
-            deltaY += (0.05 * (double) (entity.getEffect(MobEffects.LEVITATION).getAmplifier() + 1) - correctedTravelVector.y) * 0.2;
-        } else //noinspection deprecation - Used in Vanilla/NeoForge
-            if (!entity.level().isClientSide() || entity.level().hasChunkAt(blockpos)) {
-                deltaY -= gravity;
-            } else if (entity.level().isInsideBuildHeight(blockpos)) {
-                deltaY = -0.1;
-            } else {
-                deltaY = 0.0;
-            }
-        
-        if (entity.onGround()) {
-            if (entity.shouldDiscardFriction()) {
-                correctedTravelVector = new Vec3(correctedTravelVector.x, deltaY, correctedTravelVector.z);
-            } else {
-                correctedTravelVector = new Vec3(
-                        correctedTravelVector.x * (double) f3,
-                        entity instanceof FlyingAnimal ? deltaY * (double) f3 : deltaY * 0.98f,
-                        correctedTravelVector.z * (double) f3
-                );
-            }
-            // This bit, which requires an Access Transformer, makes sure things can jump off the ground while immersed
-            // With my current setup, this is necessary.
-            if (entity.jumping && correctedTravelVector.y() <= 0) {
-                correctedTravelVector = new Vec3(
-                        correctedTravelVector.x,
-                        0.1,
-                        correctedTravelVector.z);
-            }
-        }
-        
-        // This bit corrects for floating
-        if (!flag) {
-            correctedTravelVector = correctedTravelVector.multiply(0.95, 0.8f, 0.95);
-            correctedTravelVector = entity.getFluidFallingAdjustedMovement(gravity, flag, correctedTravelVector);
-            if (entity.isFree(correctedTravelVector.x, correctedTravelVector.y + 0.6f - entity.getY() + entityHeight, correctedTravelVector.z)) {
-                entity.setDeltaMovement(correctedTravelVector.x, 0.3f, correctedTravelVector.z);
-            }
+        if (entity.onGround() && !entity.isVisuallySwimming()) {
+            entity.travelInAir(travelVector);
         } else {
-            correctedTravelVector = correctedTravelVector.multiply(0.5, 0.1f, 0.5);
+            entity.travelInWater(travelVector, gravity, entity.getDeltaMovement().y <= 0.0, entity.getY());
+            if (entity.isJumping()) {
+                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.02, 0));
+            }
+            // For some reason, we need this here or we still manage to take fall damage based on our highest position
+            // since touching the ground. This might be a bug in the CFAPI
+            entity.resetFallDistance();
         }
-        
-        // This bit finishes up
-        entity.setDeltaMovement(correctedTravelVector);
         return true;
+    }
+    
+    /**
+     * The loot table to use while fishing in this fluid.
+     * <p>
+     * Returns: The ResourceKey pointing at the loot table to be used to roll fishing loot.
+     * </p>
+     **/
+    @Override
+    public ResourceKey<LootTable> getFishingLootTableKey(Level lureLevel, BlockPos lurePos) {
+        // Easter Egg - as a one-off that has nothing to do with fluids,
+        // this table was made using https://misode.github.io/loot-table/.
+        return THICK_AIR_FISHING_LOOT;
+    }
+    
+    /**
+     * Should the entity (type) make splashes when it enters this fluid?
+     *
+     * @param splashingType The type of entity making splashes.
+     * @return True to make splashes; otherwise false.
+     */
+    @Override
+    public boolean shouldSplash(EntityType<?> splashingType) {
+        return false;
+    }
+    
+    /**
+     * Boats are covered in FluidType#supportsBoating. This method is for other vehicles. Minecarts are supported
+     * out-of-the-box. Other vehicles will need to implement support.
+     *
+     * @param vehicle The vehicle to affect.
+     * @return True if the vehicle should be affected by fluids of this type. Otherwise, false.
+     */
+    @Override
+    public boolean affectsVehicle(VehicleEntity vehicle) {
+        return false;
+    }
+    
+    /**
+     * Should the fluid make mobs wet?
+     *
+     * @param toWet The type of entity getting wet.
+     * @return True if it should get wet, false otherwise.
+     */
+    @Override
+    public boolean makesWet(EntityType<?> toWet) {
+        return false;
+    }
+    
+    @Override
+    public boolean hasUnderWaterMusic() {
+        return false;
+    }
+    
+    /**
+     * Will touching this fluid hurt this living entity?
+     *
+     * @param toHurt The living entity being hurt.
+     * @return True if the entity should be hurt; otherwise false.
+     */
+    @Override
+    public boolean hurtsEntity(LivingEntity toHurt) {
+        return false;
     }
 }

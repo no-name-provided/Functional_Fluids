@@ -62,10 +62,9 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public int getLightLevel() {
         return ServerConfig.cFLight;
     }
-
+    
     /**
-     * Returns how much the velocity of the fluid should be scaled by
-     * when applied to an entity.
+     * Returns how much the velocity of the fluid should be scaled by when applied to an entity.
      *
      * @param entity the entity in the fluid
      * @return a scalar to multiply to the fluid velocity
@@ -74,10 +73,10 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public double motionScale(Entity entity) {
         return ServerConfig.cFPushStrength;
     }
-
+    
     /**
-     * Returns whether the entity can swim in the fluid. For players, this is specifically
-     * whether it can sprintswim (not whether it's buoyant).
+     * Returns whether the entity can swim in the fluid. For players, this is specifically whether it can sprintswim
+     * (not whether it's buoyant).
      *
      * @param entity the entity in the fluid
      * @return {@code true} if the entity can swim in the fluid, {@code false} otherwise
@@ -88,13 +87,20 @@ public class ConfigurableFluidType extends TaggedFluidType {
     }
     
     @Override
-    public boolean canFish() {
+    public boolean canFish(Level lureLevel, BlockPos lurePos) {
         return ServerConfig.cFCanFish;
     }
     
     @Override
-    public ResourceKey<LootTable> getFishingLootTableKey() {
-        return BuiltInLootTables.FISHING;
+    public ResourceKey<LootTable> getFishingLootTableKey(Level lureLevel, BlockPos lurePos) {
+        // Easter Egg - "fish" depend on color!
+        return switch (ServerConfig.cFColor % 10) {
+            case 0 -> BuiltInLootTables.FISHING_FISH;
+            case 1, 2, 3, 4, 5 -> BuiltInLootTables.FISHING_JUNK;
+            // Not OP, since color is controlled by the server
+            case 6 -> BuiltInLootTables.FISHING_TREASURE;
+            default -> BuiltInLootTables.FISHING;
+        };
     }
     
     @Override
@@ -108,8 +114,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     }
     
     /**
-     * Returns how much the fluid should scale the damage done to a falling
-     * entity when hitting the ground per tick.
+     * Returns how much the fluid should scale the damage done to a falling entity when hitting the ground per tick.
      *
      * <p>Implementation: If the entity is in many fluids, the smallest modifier
      * is applied.
@@ -121,7 +126,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public float getFallDistanceModifier(Entity entity) {
         return ServerConfig.cFDamageMultiplier;
     }
-
+    
     /**
      * Returns whether the entity can drown in the fluid.
      *
@@ -132,7 +137,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public boolean canDrownIn(LivingEntity entity) {
         return ServerConfig.cFDrown;
     }
-
+    
     /**
      * Returns whether the boat can be used on the fluid.
      *
@@ -142,20 +147,19 @@ public class ConfigurableFluidType extends TaggedFluidType {
     @Override public boolean supportsBoating(AbstractBoat boat) {
         return ServerConfig.cFBoating;
     }
-
+    
     /**
      * Returns whether the entity can ride in this vehicle under the fluid.
      *
      * @param vehicle the vehicle being ridden in
      * @param rider   the entity riding the vehicle
-     * @return {@code true} if the vehicle can be ridden in under this fluid,
-     * {@code false} otherwise
+     * @return {@code true} if the vehicle can be ridden in under this fluid, {@code false} otherwise
      */
     @Override
     public boolean canRideVehicleUnder(Entity vehicle, Entity rider) {
         return ServerConfig.cFRideUnder;
     }
-
+    
     /**
      * Returns whether the block can be extinguished by this fluid.
      *
@@ -168,7 +172,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public boolean canExtinguish(FluidState state, BlockGetter getter, BlockPos pos) {
         return ServerConfig.cExtinguish;
     }
-
+    
     /**
      * Returns whether the fluid can create a source.
      *
@@ -179,7 +183,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public boolean canConvertToSource(FluidStack stack) {
         return ServerConfig.cFInfinite;
     }
-
+    
     /**
      * Returns whether the fluid can hydrate.
      *
@@ -192,7 +196,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public boolean canHydrate(FluidStack stack) {
         return ServerConfig.cFHydrate;
     }
-
+    
     /**
      * Returns the rarity of the fluid.
      *
@@ -205,7 +209,7 @@ public class ConfigurableFluidType extends TaggedFluidType {
     public Rarity getRarity(FluidStack stack) {
         return ServerConfig.cFRarity;
     }
-
+    
     /**
      * Determines if this fluid should be vaporized when placed into a level.
      *

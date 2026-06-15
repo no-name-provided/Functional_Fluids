@@ -76,7 +76,7 @@ side = "BOTH"
 [[dependencies."${mod_id}"]]
 modId = "cfa"
 type = "required"
-versionRange = "[0.1.0,)"
+versionRange = "[0.3.0,)"
 # The mod this file is packaged in should load after the dependency referenced in this block.
 ordering = "AFTER"
 side = "BOTH"
