@@ -1,3 +1,4 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
     id 'java-library'
     id 'maven-publish'
@@ -137,8 +138,8 @@ dependencies {
 //    compileOnly('com.github.no-name-provided:Community-Fluid-API:master-SNAPSHOT')
 //    runtimeOnly('com.github.no-name-provided:Community-Fluid-API:master-SNAPSHOT')
 
-    compileOnly(":cfa:0.3.0")
-    runtimeOnly(":cfa:0.3.0")
+    compileOnly(":cfa:${fluid_api_version}")
+    runtimeOnly(":cfa:${fluid_api_version}")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

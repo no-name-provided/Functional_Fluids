@@ -1,5 +1,6 @@
 package com.github.no_name_provided.fun_fluids.client;
 
+import com.github.no_name_provided.cfa.CommunityFluidAPI;
 import com.github.no_name_provided.fun_fluids.client.tints.item.FluidTint;
 import com.github.no_name_provided.fun_fluids.common.ServerConfig;
 import com.github.no_name_provided.fun_fluids.common.fluids.registries.FluidRegistries;
@@ -35,6 +36,9 @@ import org.jspecify.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import java.time.LocalDate;
+import java.time.Month;
+
 import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
 
 /**
@@ -59,7 +63,7 @@ public class Events {
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
                     final Identifier THICK_AIR_UNDER_FLUID_OVERLAY =
-                            Identifier.fromNamespaceAndPath(MODID, "textures/misc/colorless_underwater.png");
+                            Identifier.fromNamespaceAndPath(CommunityFluidAPI.MODID, "textures/misc/colorless_underwater.png");
                     
                     /**
                      * Returns the location of the texture to apply to the camera when it is
@@ -124,6 +128,7 @@ public class Events {
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
                     final Identifier RIVER_OF_TIME_LOCATION = Identifier.withDefaultNamespace("textures/misc/underwater.png");
+                    final Identifier RIVER_OF_TIME_LOCATION_HALLOWEEN = Identifier.withDefaultNamespace("textures/misc/pumpkinblur.png");
                     
                     @Override
                     public void modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector4f fluidFogColor) {
@@ -145,7 +150,15 @@ public class Events {
                     
                     @Override
                     public Identifier getRenderOverlayTexture(Minecraft minecraft) {
-                        return RIVER_OF_TIME_LOCATION;
+                        // Halloween Easter egg - we can cache this, if it ends up being too expensive,
+                        // but then it'll only update on a server restart. More nuanced approaches
+                        // seem like overengineering.
+                        //
+                        // Note that this overlay is so subtle, it's easily missed. However, it does apply.
+                        LocalDate date = LocalDate.now();
+                        return date.getDayOfMonth() > 25 && date.getMonth() == Month.OCTOBER ?
+                                RIVER_OF_TIME_LOCATION_HALLOWEEN :
+                                RIVER_OF_TIME_LOCATION;
                     }
                     
                 },
