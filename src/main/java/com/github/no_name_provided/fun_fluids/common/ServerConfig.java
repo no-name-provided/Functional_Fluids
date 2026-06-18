@@ -8,12 +8,14 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-// Creates and parses the server config, which is copied from the server to all clients during multiplayer.
-// This overwrites any server configuration file they may have.
+/**
+ * Creates and parses the server config, which is copied from the server to all clients during multiplayer. This
+ * overwrites any server configuration file they may have.
+ */
 @EventBusSubscriber(modid = FunFluids.MODID)
 public class ServerConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-
+    
     private static final ModConfigSpec.BooleanValue CF_VISIBILITY = BUILDER.comment("Should the configurable fluid be invisible?").define("cFVisibility", false);
     private static final ModConfigSpec.BooleanValue CF_BOATING = BUILDER.comment("Should the configurable fluid support boats?").define("cFBoating", true);
     private static final ModConfigSpec.BooleanValue CF_HYDRATE = BUILDER.comment("Should the configurable fluid hydrate things?").define("cFHydration", true);
@@ -36,9 +38,9 @@ public class ServerConfig {
     private static final ModConfigSpec.EnumValue<Rarity> CF_RARITY = BUILDER.comment("How rare should the configurable fluid be?").defineEnum("cFRarity", Rarity.EPIC);
     private static final ModConfigSpec.BooleanValue FLOOD_DECAYS = BUILDER.comment("Should flood blocks decay into regular water?").define("floodDecays", true);
     private static final ModConfigSpec.BooleanValue DESTROY_FLOOD = BUILDER.comment("HELP! I ignored the warnings! (Destroys, but does not reverse the effect of, Flood.)").define("destroyFlood", false);
-
+    
     public static final ModConfigSpec SPEC = BUILDER.build();
-
+    
     public static boolean cFVisibility;
     public static boolean cFBoating;
     public static boolean cFHydrate;
@@ -61,10 +63,11 @@ public class ServerConfig {
     public static int cFSlopeFindDistance;
     public static int cFDropOff;
     public static Rarity cFRarity;
-
+    
     /**
      * This should update the configurable constants every time this config is loaded or reloaded.
-     * */
+     *
+     */
     @SubscribeEvent
     static void onConfigUpdate(final ModConfigEvent event) {
         // A common crash on server stop is caused by trying to check values that have already been unloaded.

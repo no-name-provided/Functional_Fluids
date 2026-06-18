@@ -7,6 +7,9 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+/**
+ * A client-only, per-instance config. Useful for flavor and display options, but not game balance.
+ */
 @EventBusSubscriber(modid = FunFluids.MODID)
 public class ClientConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();

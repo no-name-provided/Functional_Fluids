@@ -68,17 +68,21 @@ public class FFModelProvider extends ModelProvider {
         );
         // Generate a simple bucket, copying an existing texture
         itemModels.generateFlatItem(ItemRegistry.COOL_LAVA_BUCKET.get(), Items.LAVA_BUCKET, ModelTemplates.FLAT_ITEM);
+        // Generate a simple bucket, using the vanilla bucket texture as a base and overlaying it
+        // with another convenient texture to represent the fluid
         itemModels.itemModelOutput.accept(ItemRegistry.THICK_AIR_BUCKET.get(), ItemModelUtils.plainModel(
                 itemModels.generateLayeredItem(
                         ItemRegistry.THICK_AIR_BUCKET.get(),
                         new Material(mcLocation("item/bucket")),
                         new Material(mcLocation("item/firework_star_overlay"))
-                )));
+                )
+        ));
         
         // Making dynamic buckets is a bit different in 26.1, and the docs are currently incorrect.
         // There's a special (Neo)Forge model type for bucket items.
-        // This mostly works, but results in a weird outline.
-        // More NeoForge convenience assets can be found in your External Libraries folder at net.neoforged\neoforge\26.1.2.42-beta\445b8c102926c24111540bf66f7a2572f7d1638a\neoforge-26.1.2.42-beta-universal.jar!\assets\neoforge\.
+        // This mostly works, but results in a weird outline if you use a cover.
+        // More NeoForge convenience assets can be found in your External Libraries folder at
+        // net.neoforged\neoforge\26.1.2...\neoforge-26.1.2.42-beta-universal.jar!\assets\neoforge\.
         itemModels.itemModelOutput.accept(
                 ItemRegistry.CONFIGURABLE_FLUID_BUCKET.get(),
                 new DynamicFluidContainerModel.Unbaked(
@@ -86,7 +90,10 @@ public class FFModelProvider extends ModelProvider {
                                 Optional.of(new Material(mcLocation("item/bucket"))),
                                 Optional.of(new Material(mcLocation("item/bucket"))),
                                 Optional.of(new Material(Identifier.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid"))),
-                                Optional.of(new Material(Identifier.fromNamespaceAndPath("neoforge", "item/bucket_fluid_cover")))
+                                // While NeoForge offers a fluid cover, the DynamicFluidCOntainer model currently has an
+                                // annoying graphical glitch. As this model is deprecated, that probably won't be fixed.
+                                // It's recommended you just pass Optional#empty, instead.
+                                Optional.empty()
                         ),
                         FluidRegistries.FunFluids.CONFIGURABLE_FLUID.get(),
                         false,
@@ -95,8 +102,7 @@ public class FFModelProvider extends ModelProvider {
                 )
         );
         
-        // Since the official system has a weird outline, and the Neo team has
-        // no interest in fixing it, we'll use simple models for the rest of our bucket items.
+        // Since the official model is buggy, and deprecated, we demonstrate a simple alternative here.
         // This will prevent the "glass pane" outline, but will also fail to copy the full fluid texturing
         // or mimic its motion.
         //
@@ -108,6 +114,8 @@ public class FFModelProvider extends ModelProvider {
                         new Material(Identifier.fromNamespaceAndPath(MODID, "item/generic_fluid_in_bucket"))
                 ),
                 ItemModelUtils.constantTint(-1),
+                // This is a custom ItemTintSource. Like all (custom) ItemTintSources, it had to be registered in
+                // our RegisterColorHandlersEvent.ItemTintSources handler
                 new FluidTint()
         ));
         itemModels.itemModelOutput.accept(ItemRegistry.FLOOD_BUCKET.get(), ItemModelUtils.tintedModel(

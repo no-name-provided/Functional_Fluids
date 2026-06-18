@@ -45,13 +45,12 @@ import static com.github.no_name_provided.fun_fluids.FunFluids.MODID;
 public class Events {
     
     /**
-     * This is where we set under fluid overlay, fluid overlay, still and flowing textures and custom rendering logic.
-     * Other properties (eg, tint) are set in RegisterFluidModelsEvent.
-     *
+     * This is where we set under fluid overlay and some custom rendering logic. Other properties (tint, textures, etc.)
+     * are set in RegisterFluidModelsEvent.
      */
     @SubscribeEvent
     static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-        
+        // This is a minimal implementation
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
                 },
@@ -59,7 +58,8 @@ public class Events {
         );
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
-                    final Identifier THICK_AIR_UNDER_FLUID_OVERLAY = Identifier.withDefaultNamespace("textures/misc/underwater.png");
+                    final Identifier THICK_AIR_UNDER_FLUID_OVERLAY =
+                            Identifier.fromNamespaceAndPath(MODID, "textures/misc/colorless_underwater.png");
                     
                     /**
                      * Returns the location of the texture to apply to the camera when it is
@@ -82,13 +82,15 @@ public class Events {
         );
         event.registerFluidType(
                 new IClientFluidTypeExtensions() {
-                    
-                    // The vanilla water textures are good, grayscale fluid textures. Unless you have an artistic bent,
-                    // I generally recommend just using those and applying a tint.
+                    // This is the only vanilla water texture that's strongly colored, but it's so translucent that
+                    // it usually doesn't matter. Alternatively, the Community API provides a colorless version (we use
+                    // that for Thick Air, above)
                     final Identifier UNDER_C_FLUID_LOCATION = Identifier.withDefaultNamespace("textures/misc/underwater.png");
                     
                     @Override
                     public void modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector4f fluidFogColor) {
+                        // We probably don't want a custom fog color when this is invisible.
+                        // (This is applied separately)
                         if (!ServerConfig.cFVisibility) {
                             fluidFogColor.set(ARGB.vector4fFromARGB32(ServerConfig.cFColor));
                         }
@@ -96,6 +98,8 @@ public class Events {
                     
                     @Override
                     public void modifyFogRender(Camera camera, @Nullable FogEnvironment environment, float renderDistance, float partialTick, FogData fog) {
+                        // We probably don't want a custom fog when this is invisible.
+                        // (This is applied separately)
                         if (!ServerConfig.cFVisibility) {
                             float partialTicks = DeltaTracker.ONE.getGameTimeDeltaPartialTick(false);
                             fog.environmentalStart = camera.attributeProbe().getValue(EnvironmentAttributes.WATER_FOG_START_DISTANCE, partialTicks);
@@ -111,6 +115,7 @@ public class Events {
                     
                     @Override @Nullable
                     public Identifier getRenderOverlayTexture(Minecraft minecraft) {
+                        // We probably don't want an overlay when this is invisible. (This is rendered separately)
                         return ServerConfig.cFVisibility ? UNDER_C_FLUID_LOCATION : null;
                     }
                 },
@@ -177,13 +182,22 @@ public class Events {
         );
     }
     
+    /**
+     * This is where we register
+     * <ul>
+     * <li>The "material" (texture) used for still fluids</li>
+     * <li>The "material" (texture) used for flowing fluids</li>
+     * <li>The "material" (texture) used for fluids adjacent to transparent blocks, like glass</li>
+     * <li>The FluidTintSource used to (conditionally) tint your fluid</li>
+     * </ul>
+     */
     @SubscribeEvent
     static void onRegisterFluidModels(RegisterFluidModelsEvent event) {
         event.register(
                 new FluidModel.Unbaked(
                         new Material(Identifier.withDefaultNamespace("block/lava_still")),
                         new Material(Identifier.withDefaultNamespace("block/lava_flow")),
-                        // Overlay texture is optional (and apparently ignored)
+                        // Overlay texture is optional
                         null,
                         // So is FluidTintSource. You can leave this out if your texture already has color
                         null
@@ -193,6 +207,8 @@ public class Events {
         );
         event.register(
                 new FluidModel.Unbaked(
+                        // The vanilla water textures are good, grayscale fluid textures. Unless you have an artistic bent,
+                        // I generally recommend just using those and applying a tint
                         new Material(Identifier.fromNamespaceAndPath(MODID, "block/thick_air")),
                         new Material(Identifier.fromNamespaceAndPath(MODID, "block/thick_air")),
                         null,
@@ -200,15 +216,13 @@ public class Events {
                 ),
                 FluidRegistries.FunFluids.THICK_AIR_FLUID.get()
         );
-        // Vanilla water textures are grayscale (until tinted), so are easy for less artistic modders to reuse.
-        // This is the only vanilla water texture that's strongly colored, so it probably shouldn't be reused.
-        final Identifier C_FLUID_OVERLAY = Identifier.withDefaultNamespace("block/water_overlay");
         event.register(
                 new FluidModel.Unbaked(
                         new Material(Identifier.withDefaultNamespace("block/water_still")),
                         new Material(Identifier.withDefaultNamespace("block/water_flow")),
-                        // These overlays don't seem to work...
-                        new Material(C_FLUID_OVERLAY),
+                        // An overlay to render when IBlockExtension#shouldDisplayFluidOverlay returns true,
+                        // which usually happens when your fluid (face) is next to a HalfTransparentBlock or leaves
+                        new Material(Identifier.withDefaultNamespace("block/water_overlay")),
                         _ ->
                                 // net.neoforged.neoforge.client.ClientNeoForgedMod water_type uses, 0xFF3F76E4
                                 // which works out to 255, 63, 118, 228 ARGB, as the default color.
@@ -245,7 +259,7 @@ public class Events {
                         // If you want your fluid to have conditional tinting, you can provide a full implementation
                         new FluidTintSource() {
                             /**
-                             * The default, minimum context, tint. All other methods redirect here, by default.
+                             * The default, minimum context, tint. All other methods redirect here by default.
                              * This is the one method that <i>must</i> be overridden.
                              *
                              * @param state The FluidState being tinted.
@@ -258,7 +272,7 @@ public class Events {
                             }
                             
                             /**
-                             * The tint to apply to blocks in the world. Defaults to color(FluidState).
+                             * The tint to apply to blocks in the world. Defaults to FluidTintSource#color(FluidState).
                              *
                              * @param fluidState The FluidState being tinted.
                              * @param blockState The BlockState being tinted.
@@ -336,6 +350,10 @@ public class Events {
         );
     }
     
+    /**
+     * Item tint sources need to be registered here. They can then be referenced by Identifier in JSON files (typically
+     * the tint array of an item model file—see generated/assets/fun_fluids/items/flood_bucket.json for an example).
+     */
     @SubscribeEvent
     static void onRegisterItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
         event.register(

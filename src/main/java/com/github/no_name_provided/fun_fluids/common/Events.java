@@ -64,7 +64,6 @@ public class Events {
         // They seem to work if we "register" them here, so we might as well. For whatever reason, the (Neo)Forge team
         // decided to use a bespoke "registry" (not deferred) with a basic synchronized static addition method.
         // Something about registries not handling "arbitrary obj -> thing" mappings.
-        // This may cause lag if a bunch of mods try to add fluid interactions at the same time.
         FluidInteractionRegistry.addInteraction(
                 FluidRegistries.FunFluidTypes.COOL_LAVA.get(),
                 new FluidInteractionRegistry.InteractionInformation(
@@ -136,8 +135,11 @@ public class Events {
     }
     
     /**
-     * We only need to add this because we aren't using a vanilla BucketItem. It's normally automatically added by
-     * NeoForge.
+     * We only need to add this if we aren't using a vanilla BucketItem. It's normally automatically added by NeoForge.
+     * <p>
+     * Left in for documentary purposes, but probably no longer necessary since we're now using CauldronInteractions
+     * with vanilla buckets rather than Capabilities with subclasses thereof.
+     * </p>
      */
     @SubscribeEvent
     static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
