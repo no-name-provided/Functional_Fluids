@@ -26,7 +26,7 @@ public class ClientConfig {
             .define("translucentMistParticles", true);
     private static final ModConfigSpec.BooleanValue RENDER_THICK_AIR_OVERLAY = BUILDER
             .comment("Show \"fog\" when submerged in thick air?")
-            .define("showThickAirParticles", true);
+            .define("renderThickAirOverlay", true);
     private static final ModConfigSpec.IntValue THICK_AIR_PARTICLE_SLOWDOWN_FACTOR = BUILDER
             .comment("Frequency of thick air particles? (higher is less frequent)")
             .defineInRange("thickAirParticleSlowDownFactor", 10, 1, Integer.MAX_VALUE);

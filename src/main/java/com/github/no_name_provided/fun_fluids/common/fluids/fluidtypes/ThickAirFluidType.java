@@ -1,13 +1,17 @@
 package com.github.no_name_provided.fun_fluids.common.fluids.fluidtypes;
 
+import com.github.no_name_provided.cfa.client.particles.CFAParticleTypes;
 import com.github.no_name_provided.fun_fluids.datagen.providers.FFFluidTagsProvider;
 import com.mojang.logging.annotations.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
@@ -160,5 +164,68 @@ public class ThickAirFluidType extends TaggedFluidType {
     @Override
     public boolean hurtsEntity(LivingEntity toHurt) {
         return false;
+    }
+    
+    /**
+     * Create the particle we use for splash effects (wolf shake, water entry, etc.) on the client. May be called from
+     * common code. Typically no-ops on server threads.
+     */
+    @Override
+    public void createSplashParticleOnClient(Fluid fluid, Level level, double x, double y, double z, double xAux, double yAux, double zAux) {
+        if (level.isClientSide()) {
+            level.addParticle(ColorParticleOption.create(
+                            CFAParticleTypes.TINTED_SPLASH_PARTICLE.get(),
+                            // White
+                            ARGB.color(255, 255, 255, 255)),
+                    x,
+                    y,
+                    z,
+                    xAux,
+                    yAux,
+                    zAux
+            );
+        }
+    }
+    
+    /**
+     * Create the particle we use for splash effects (wolf shake, water entry, etc.) from the server side.
+     */
+    @Override
+    public int createSplashParticleOnServer(Fluid fluid, ServerLevel level, double x, double y, double z, int count, double xDist, double yDist, double zDist, double speed) {
+        return level.sendParticles(
+                ColorParticleOption.create(
+                        CFAParticleTypes.TINTED_SPLASH_PARTICLE.get(),
+                        // White
+                        ARGB.color(255, 255, 255, 255)
+                ), x,
+                y,
+                z,
+                count,
+                xDist,
+                yDist,
+                zDist,
+                speed
+        );
+    }
+    
+    /**
+     * Create the particle we use for wake effects (fish approaching fishing bob) from the server side.
+     */
+    @Override
+    public int createWakeParticleOnServer(Fluid fluid, ServerLevel level, double x, double y, double z, int count, double xDist, double yDist, double zDist, double speed) {
+        return level.sendParticles(
+                ColorParticleOption.create(
+                        CFAParticleTypes.TINTED_WAKE_PARTICLE.get(),
+                        // White
+                        ARGB.color(255, 255, 255, 255)
+                ), x,
+                y,
+                z,
+                count,
+                xDist,
+                yDist,
+                zDist,
+                speed
+        );
     }
 }
